@@ -3,48 +3,28 @@ public class Member {
 
 	private String studentName;
 	private String studentSurname;
-	private String arithM;
-	private String univercity;
-	private String uniClass;
-	private String studentNotes;
+	private String ID;
+	private String department;
+	private String email;
 	
-	public String getStudentName() {
-		return studentName;
-	}
+	//private String studentNotes;
+	
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
-	}
-	public String getStudentSurname() {
-		return studentSurname;
 	}
 	public void setStudentSurname(String studentSurname) {
 		this.studentSurname = studentSurname;
 	}
-	public String getArithM() {
-		return arithM;
+	public void setID(String iD) {
+		ID = iD;
 	}
-	public void setArithM(String arithM) {
-		this.arithM = arithM;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
-	public String getUnivercity() {
-		return univercity;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public void setUnivercity(String univercity) {
-		this.univercity = univercity;
-	}
-	public String getUniClass() {
-		return uniClass;
-	}
-	public void setUniClass(String uniClass) {
-		this.uniClass = uniClass;
-	}
-	public String getStudentNotes() {
-		return studentNotes;
-	}
-	public void setStudentNotes(String studentNotes) {
-		this.studentNotes = studentNotes;
-	}
-
+	
 }
 		
 
