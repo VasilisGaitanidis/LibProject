@@ -18,11 +18,12 @@ import java.awt.Color;
 
 
 public class ReturnBookForm extends JInternalFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JLabel publisherLabel;
+	private JTextField ISBNTextField;
+	private JTextField IDTextField;
+	private JTextField returnDayTextField;
+	private JTextField fineTextField;
+	private JLabel fineLabel;
+	private JTextField reviewTextField;
 
 
 	/**
@@ -61,29 +62,34 @@ public class ReturnBookForm extends JInternalFrame {
 					.addContainerGap())
 		);
 		
-		JLabel bookNamelLabel = new JLabel("ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel ISBNLabel = new JLabel("ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		ISBNTextField = new JTextField();
+		ISBNTextField.setColumns(10);
 		
 		JButton buttonReturnBook = new JButton("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE");
 		
-		JLabel authorLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
+		JLabel IDLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		IDTextField = new JTextField();
+		IDTextField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		returnDayTextField = new JTextField();
+		returnDayTextField.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		fineTextField = new JTextField();
+		fineTextField.setColumns(10);
 		
-		JLabel label = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
+		JLabel returnDayLabel = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		
-		publisherLabel = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
+		fineLabel = new JLabel("\u03A0\u03C1\u03CC\u03C3\u03C4\u03B9\u03BC\u03BF/\u0397\u03BC\u03AD\u03C1\u03B1:");
 		
-		JButton buttonExit = new JButton("\u0388\u03BE\u03BF\u03B4\u03BF\u03C2");
+		JButton buttonExit = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
+		
+		JLabel reviewLabel = new JLabel("A\u03BE\u03B9\u03BF\u03BB\u03CC\u03B3\u03B7\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		
+		reviewTextField = new JTextField();
+		reviewTextField.setColumns(10);
 		GroupLayout gl_panelData = new GroupLayout(panelData);
 		gl_panelData.setHorizontalGroup(
 			gl_panelData.createParallelGroup(Alignment.LEADING)
@@ -91,50 +97,60 @@ public class ReturnBookForm extends JInternalFrame {
 					.addGroup(gl_panelData.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelData.createSequentialGroup()
 							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
-								.addComponent(publisherLabel, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-								.addComponent(label, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-								.addComponent(authorLabel, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-								.addComponent(bookNamelLabel, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+								.addComponent(fineLabel, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addComponent(returnDayLabel, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addComponent(IDLabel, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addComponent(ISBNLabel, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panelData.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-								.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-								.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
+								.addComponent(returnDayTextField, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+								.addComponent(IDTextField, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+								.addComponent(fineTextField, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+								.addComponent(ISBNTextField, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
 						.addGroup(gl_panelData.createSequentialGroup()
-							.addContainerGap(246, Short.MAX_VALUE)
-							.addComponent(buttonExit, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addContainerGap(246, Short.MAX_VALUE)
-							.addComponent(buttonReturnBook)))
+							.addGroup(gl_panelData.createParallelGroup(Alignment.TRAILING)
+								.addComponent(buttonReturnBook)
+								.addComponent(reviewLabel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(reviewTextField, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE))
+								.addGroup(Alignment.TRAILING, gl_panelData.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(buttonExit, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+									.addGap(43)))))
 					.addContainerGap())
 		);
 		gl_panelData.setVerticalGroup(
 			gl_panelData.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelData.createSequentialGroup()
 					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(bookNamelLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(ISBNLabel)
+						.addComponent(ISBNTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(authorLabel)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(IDLabel)
+						.addComponent(IDTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label))
+						.addComponent(returnDayTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(returnDayLabel))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(publisherLabel))
-					.addGap(96)
-					.addComponent(buttonReturnBook)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(buttonExit)
+						.addComponent(fineTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(fineLabel))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
+						.addComponent(reviewLabel)
+						.addComponent(reviewTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(100)
+					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
+						.addComponent(buttonReturnBook)
+						.addComponent(buttonExit))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panelData.setLayout(gl_panelData);
-		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{bookNamelLabel, textField, authorLabel, textField_1, label, textField_2, publisherLabel, textField_3, buttonReturnBook, buttonExit}));
+		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{ISBNLabel, ISBNTextField, IDLabel, IDTextField, returnDayLabel, returnDayTextField, fineLabel, fineTextField, buttonReturnBook, buttonExit}));
 		
 		JTextPane textPane = new JTextPane();
 		GroupLayout gl_panelButtons = new GroupLayout(panelButtons);

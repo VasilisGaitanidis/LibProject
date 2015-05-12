@@ -18,18 +18,19 @@ import java.awt.event.ActionEvent;
 
 
 public class AddBookForm extends JInternalFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JLabel publisherLabel;
+	private JTextField bookNameTextField;
+	private JTextField bookAuthorTextField;
+	private JTextField bookSubjectTextField;
+	private JTextField bookPagesTextField;
+	private JTextField bookPublisherTextField;
+	private JTextField bookEditionTextField;
+	private JTextField bookLanguageTextField;
+	private JLabel bookPublisherLabel;
 	private JLabel ISBNLabel;
-	private JLabel numberOfPagesLabel;
-	private JLabel editionNumberLabel;
+	private JLabel bookPagesLabel;
+	private JLabel bookEditionLabel;
 	private JButton buttonAddBook;
+	private JTextField ISBNtextField;
 
 
 	/**
@@ -71,19 +72,22 @@ public class AddBookForm extends JInternalFrame {
 				
 		
 		
-		JLabel bookNamelLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel bookNameLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookNameLabel.setBounds(6, 19, 144, 14);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		bookNameTextField = new JTextField();
+		bookNameTextField.setBounds(154, 16, 179, 20);
+		bookNameTextField.setColumns(10);
 		
 		buttonAddBook = new JButton("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
+		buttonAddBook.setBounds(69, 239, 81, 23);
 		buttonAddBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				DatabaseHandling db = new DatabaseHandling();
 				db.establishConnection();
-				String bookName = textField.getText();
-				int ISBN = Integer.parseInt(textField_4.getText());
+				String bookName = bookNameTextField.getText();
+				int ISBN = Integer.parseInt(bookPublisherTextField.getText());
 				db.insertingIntoDB("book", ISBN, bookName);
 				
 				
@@ -91,121 +95,91 @@ public class AddBookForm extends JInternalFrame {
 			}
 		});
 		
-		JLabel authorLabel = new JLabel("\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel bookAuthorLabel = new JLabel("\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookAuthorLabel.setBounds(6, 45, 144, 14);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		bookAuthorTextField = new JTextField();
+		bookAuthorTextField.setBounds(154, 42, 179, 20);
+		bookAuthorTextField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		bookSubjectTextField = new JTextField();
+		bookSubjectTextField.setBounds(154, 68, 179, 20);
+		bookSubjectTextField.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		bookPagesTextField = new JTextField();
+		bookPagesTextField.setBounds(154, 94, 179, 20);
+		bookPagesTextField.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
+		bookPublisherTextField = new JTextField();
+		bookPublisherTextField.setBounds(154, 120, 179, 20);
+		bookPublisherTextField.setColumns(10);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
+		bookEditionTextField = new JTextField();
+		bookEditionTextField.setBounds(154, 146, 179, 20);
+		bookEditionTextField.setColumns(10);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
+		bookLanguageTextField = new JTextField();
+		bookLanguageTextField.setBounds(154, 172, 179, 20);
+		bookLanguageTextField.setColumns(10);
 		
 		JLabel bookSubjectLabel = new JLabel("\u0398\u03AD\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookSubjectLabel.setBounds(6, 71, 144, 14);
 		
-		publisherLabel = new JLabel("\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC\u03C2 \u039F\u03AF\u03BA\u03BF\u03C2:");
+		bookPublisherLabel = new JLabel("\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC\u03C2 \u039F\u03AF\u03BA\u03BF\u03C2:");
+		bookPublisherLabel.setBounds(6, 123, 144, 14);
 		
 		ISBNLabel = new JLabel("ISBN:");
+		ISBNLabel.setBounds(6, 204, 142, 14);
 		
-		numberOfPagesLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03A3\u03B5\u03BB\u03B9\u03B4\u03CE\u03BD:");
+		bookPagesLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03A3\u03B5\u03BB\u03B9\u03B4\u03CE\u03BD:");
+		bookPagesLabel.setBounds(6, 97, 144, 14);
 		
-		editionNumberLabel = new JLabel("\u0388\u03BA\u03B4\u03BF\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookEditionLabel = new JLabel("\u0388\u03BA\u03B4\u03BF\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookEditionLabel.setBounds(6, 149, 144, 14);
 		
-		JButton button = new JButton("\u0388\u03BE\u03BF\u03B4\u03BF\u03C2");
-		GroupLayout gl_panelData = new GroupLayout(panelData);
-		gl_panelData.setHorizontalGroup(
-			gl_panelData.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelData.createSequentialGroup()
-					.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addGroup(gl_panelData.createParallelGroup(Alignment.TRAILING)
-								.addComponent(editionNumberLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-								.addComponent(ISBNLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-								.addGroup(Alignment.LEADING, gl_panelData.createParallelGroup(Alignment.LEADING)
-									.addComponent(publisherLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(bookSubjectLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(authorLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(bookNamelLabel, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-								.addComponent(numberOfPagesLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panelData.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_6, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-								.addComponent(textField_5, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-								.addComponent(textField_4, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-								.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-								.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
-						.addGroup(Alignment.TRAILING, gl_panelData.createSequentialGroup()
-							.addContainerGap(246, Short.MAX_VALUE)
-							.addComponent(button, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, gl_panelData.createSequentialGroup()
-							.addContainerGap(246, Short.MAX_VALUE)
-							.addComponent(buttonAddBook)))
-					.addContainerGap())
-		);
-		gl_panelData.setVerticalGroup(
-			gl_panelData.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelData.createSequentialGroup()
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(bookNamelLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(authorLabel)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(bookSubjectLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(publisherLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(ISBNLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(numberOfPagesLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelData.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(editionNumberLabel))
-					.addGap(18)
-					.addComponent(buttonAddBook)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(button)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		panelData.setLayout(gl_panelData);
-		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{bookNamelLabel, textField, authorLabel, textField_1, bookSubjectLabel, textField_2, publisherLabel, textField_3, ISBNLabel, textField_4, numberOfPagesLabel, textField_5, editionNumberLabel, textField_6, buttonAddBook, button}));
+		JButton button = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
+		button.setBounds(209, 239, 81, 23);
 		
-		JTextPane textPane = new JTextPane();
+		JLabel bookLanguageLabel = new JLabel("\u0393\u03BB\u03CE\u03C3\u03C3\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookLanguageLabel.setBounds(6, 175, 144, 14);
+		
+		ISBNtextField = new JTextField();
+		ISBNtextField.setBounds(154, 201, 179, 20);
+		ISBNtextField.setColumns(10);
+		panelData.setLayout(null);
+		panelData.add(bookNameLabel);
+		panelData.add(bookAuthorLabel);
+		panelData.add(bookPagesLabel);
+		panelData.add(bookPublisherLabel);
+		panelData.add(bookEditionLabel);
+		panelData.add(bookSubjectLabel);
+		panelData.add(bookLanguageLabel);
+		panelData.add(bookLanguageTextField);
+		panelData.add(bookEditionTextField);
+		panelData.add(bookPublisherTextField);
+		panelData.add(bookSubjectTextField);
+		panelData.add(bookAuthorTextField);
+		panelData.add(bookPagesTextField);
+		panelData.add(bookNameTextField);
+		panelData.add(ISBNLabel);
+		panelData.add(buttonAddBook);
+		panelData.add(ISBNtextField);
+		panelData.add(button);
+		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{bookNameLabel, bookNameTextField, bookAuthorLabel, bookAuthorTextField, bookSubjectLabel, bookSubjectTextField, bookPublisherLabel, bookPagesTextField, ISBNLabel, bookPublisherTextField, bookPagesLabel, bookEditionTextField, bookEditionLabel, bookLanguageTextField, buttonAddBook, button}));
+		
+		JTextPane bookNotesTextPane = new JTextPane();
 		GroupLayout gl_panelButtons = new GroupLayout(panelButtons);
 		gl_panelButtons.setHorizontalGroup(
 			gl_panelButtons.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelButtons.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+					.addComponent(bookNotesTextPane, GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panelButtons.setVerticalGroup(
 			gl_panelButtons.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelButtons.createSequentialGroup()
-					.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+					.addComponent(bookNotesTextPane, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panelButtons.setLayout(gl_panelButtons);
