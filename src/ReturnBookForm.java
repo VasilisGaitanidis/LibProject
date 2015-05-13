@@ -49,7 +49,7 @@ public class ReturnBookForm extends JInternalFrame {
   */
  public ReturnBookForm() {
   setResizable(true);
-  setFrameIcon(new ImageIcon(AddBookForm.class.getResource("/images/add_book_16x16.png")));
+  setFrameIcon(new ImageIcon(ReturnBookForm.class.getResource("/images/inbox_download_16x16.png")));
   setTitle("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
   setIconifiable(true);
   setClosable(true);

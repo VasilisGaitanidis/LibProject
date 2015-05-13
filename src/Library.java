@@ -43,7 +43,7 @@ public class Library extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -58,7 +58,7 @@ public class Library extends JFrame {
 		setTitle("\u03A3\u03CD\u03C3\u03C4\u03B7\u03BC\u03B1 \u0394\u03B9\u03B1\u03C7\u03B5\u03AF\u03C1\u03B9\u03C3\u03B7\u03C2 \u0392\u03B9\u03B2\u03BB\u03B9\u03BF\u03B8\u03AE\u03BA\u03B7\u03C2");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 800);
-		
+
 		//Create the menu bar.
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -180,7 +180,7 @@ public class Library extends JFrame {
 		btnBorrowBook.setToolTipText("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		btnBorrowBook.setIcon(new ImageIcon(Library.class.getResource("/images/inbox_upload_16x16.png")));
 		toolBar.add(btnBorrowBook);
-		
+
 		btnReturnBook = new JButton("");
 		btnReturnBook.addActionListener(new ReturnBookActionListener());
 		btnReturnBook.setToolTipText("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
@@ -193,7 +193,7 @@ public class Library extends JFrame {
 		btnSearch.setToolTipText("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		btnSearch.setIcon(new ImageIcon(Library.class.getResource("/images/search_16x16.png")));
 		toolBar.add(btnSearch);
-		
+
 		//Create the desktopPane.
 		desktopPane = new JDesktopPane();
 		desktopPane.setBackground(SystemColor.inactiveCaption);
@@ -213,20 +213,20 @@ public class Library extends JFrame {
 				);
 		contentPane.setLayout(gl_contentPane);
 	}
-	
+
 	class ExitActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			//dispose();
 			System.exit(0); //causes the Java VM to terminate completely
-			
+
 		}
-		
+
 	}
 
 	class AddBookActionListener implements ActionListener {
-		
+
 		public void actionPerformed(ActionEvent e) {
 			if(addBookForm == null || addBookForm.isClosed()) { //only one instance to addBookForm
 				addBookForm = new AddBookForm();
@@ -237,7 +237,7 @@ public class Library extends JFrame {
 	}
 
 	class PopularBooksActionListener implements ActionListener {
-		
+
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(null, 
 					"Εμφάνιση των Δημοφιλών Βιβλίων ανά μήνα", 
@@ -272,7 +272,7 @@ public class Library extends JFrame {
 	}
 
 	class BorrowBookActionListener implements ActionListener {
-		
+
 		public void actionPerformed(ActionEvent e) {
 			if(borrowBookForm == null || borrowBookForm.isClosed()) {
 				borrowBookForm = new BorrowBookForm();
@@ -281,7 +281,7 @@ public class Library extends JFrame {
 			}
 		}
 	}
-	
+
 	class ReturnBookActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -290,7 +290,7 @@ public class Library extends JFrame {
 				desktopPane.add(returnBookForm);
 				returnBookForm.show();
 			}
-		
+
 		}
 
 	}
@@ -299,12 +299,16 @@ public class Library extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, 
+			if(searchForm == null || searchForm.isClosed()) {
+				searchForm = new SearchForm();
+				desktopPane.add(searchForm);
+				searchForm.show();
+
+				/*JOptionPane.showMessageDialog(null, 
 					"Εμφάνιση του frame αναζήτησης", 
 					"Αναζήτηση",
-					JOptionPane.INFORMATION_MESSAGE);
-
+					JOptionPane.INFORMATION_MESSAGE);*/
+			}
 		}
-
 	}
 }
