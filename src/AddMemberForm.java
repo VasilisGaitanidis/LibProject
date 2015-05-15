@@ -19,7 +19,6 @@ import java.awt.GridLayout;
 import javax.swing.UIManager;
 import java.awt.Color;
 
-
 public class AddMemberForm extends JInternalFrame {
 	private JTextField studentNameTextField;
 	private JTextField studentSurnameTextField;
@@ -33,38 +32,43 @@ public class AddMemberForm extends JInternalFrame {
 	private JButton cancelButton;
 	private JLabel studentNameLabel;
 
-
 	/**
 	 * Create the frame.
 	 */
 	public AddMemberForm() {
 		setResizable(true);
-		setFrameIcon(new ImageIcon(AddMemberForm.class.getResource("/images/user_add_16x16.png")));
+		setFrameIcon(new ImageIcon(
+				AddMemberForm.class.getResource("/images/user_add_16x16.png")));
 		setTitle("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2");
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(0, 0, 380, 236);
 
 		JPanel panelData = new JPanel();
-		panelData.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelData
+				.setBorder(new TitledBorder(
+						UIManager.getBorder("TitledBorder.border"),
+						"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2",
+						TitledBorder.LEADING, TitledBorder.TOP, null,
+						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+				Alignment.LEADING,
+				groupLayout
+						.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364,
+								Short.MAX_VALUE).addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+				Alignment.LEADING,
+				groupLayout
+						.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(panelData, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(174, Short.MAX_VALUE))
-				);
-
-
-
+						.addComponent(panelData, GroupLayout.PREFERRED_SIZE,
+								185, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(174, Short.MAX_VALUE)));
 
 		studentNameLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1:");
 
@@ -74,14 +78,16 @@ public class AddMemberForm extends JInternalFrame {
 		panelData.add(studentNameLabel);
 		panelData.add(studentNameTextField);
 
-		JLabel studentSurnameLabel = new JLabel("\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF:");
+		JLabel studentSurnameLabel = new JLabel(
+				"\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF:");
 		panelData.add(studentSurnameLabel);
 
 		studentSurnameTextField = new JTextField();
 		studentSurnameTextField.setColumns(10);
 		panelData.add(studentSurnameTextField);
 
-		IDLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
+		IDLabel = new JLabel(
+				"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
 		panelData.add(IDLabel);
 
 		IDTextField = new JTextField();
@@ -108,7 +114,8 @@ public class AddMemberForm extends JInternalFrame {
 			}
 		});
 
-		addMemberButton = new JButton("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
+		addMemberButton = new JButton(
+				"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
 		addMemberButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -118,11 +125,15 @@ public class AddMemberForm extends JInternalFrame {
 				int ISBN = Integer.parseInt(emailTextField.getText());
 				db.insertingIntoDB("book", ISBN, bookName);
 
-
 				db.closeConnection();
 			}
 		});
-		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{studentNameLabel, studentNameTextField, studentSurnameLabel, studentSurnameTextField, IDLabel, IDTextField, departmentLabel, departmentTextField, emailLabel, emailTextField, addMemberButton, cancelButton}));
+		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(
+				new Component[] { studentNameLabel, studentNameTextField,
+						studentSurnameLabel, studentSurnameTextField, IDLabel,
+						IDTextField, departmentLabel, departmentTextField,
+						emailLabel, emailTextField, addMemberButton,
+						cancelButton }));
 		panelData.add(addMemberButton);
 		panelData.add(cancelButton);
 		getContentPane().setLayout(groupLayout);
