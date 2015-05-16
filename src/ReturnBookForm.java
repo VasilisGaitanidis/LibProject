@@ -11,19 +11,27 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
+
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.SwingConstants;
 
 public class ReturnBookForm extends JInternalFrame {
 	private JTextField IDTextField;
@@ -114,7 +122,10 @@ public class ReturnBookForm extends JInternalFrame {
 						evaluationLabel, evaluationPanel, returnBookButton,
 						cancelButton }));
 
-		returnDayTextField = new JTextField();
+		String date= new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());;
+		returnDayTextField = new JTextField(date);
+		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		returnDayTextField.setBackground(Color.LIGHT_GRAY);
 		returnDayTextField.setColumns(10);
 		panelData.add(returnDayTextField);
 

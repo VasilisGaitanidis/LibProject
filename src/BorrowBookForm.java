@@ -20,8 +20,11 @@ import javax.swing.UIManager;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale;
+import javax.swing.SwingConstants;
 
 public class BorrowBookForm extends JInternalFrame {
 	private JTextField ISBNTextField;
@@ -122,7 +125,10 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
 		panelData.add(borrowDayLabel);
 
-		borrowDayTextField = new JTextField();
+		String date = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());;
+		borrowDayTextField = new JTextField(date);
+		borrowDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		borrowDayTextField.setBackground(Color.LIGHT_GRAY);
 		borrowDayTextField.setColumns(10);
 		panelData.add(borrowDayTextField);
 
