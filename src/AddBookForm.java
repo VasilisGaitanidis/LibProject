@@ -113,7 +113,7 @@ public class AddBookForm extends JInternalFrame {
 				DatabaseHandling db = new DatabaseHandling();
 				db.establishConnection();
 				String bookName = bookNameTextField.getText();
-				int ISBN = Integer.parseInt(bookPublisherTextField.getText());
+				int ISBN = Integer.parseInt(ISBNTextField.getText());
 				db.insertingIntoDB("book", ISBN, bookName);
 
 				db.closeConnection();

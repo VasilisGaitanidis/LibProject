@@ -42,7 +42,7 @@ public class AddMemberForm extends JInternalFrame {
 		setTitle("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 380, 236);
+		setBounds(0, 0, 375, 233);
 
 		JPanel panelData = new JPanel();
 		panelData
@@ -52,23 +52,20 @@ public class AddMemberForm extends JInternalFrame {
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364,
-								Short.MAX_VALUE).addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.PREFERRED_SIZE,
-								185, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(174, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		studentNameLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1:");
 
@@ -121,9 +118,9 @@ public class AddMemberForm extends JInternalFrame {
 
 				DatabaseHandling db = new DatabaseHandling();
 				db.establishConnection();
-				String bookName = studentNameTextField.getText();
-				int ISBN = Integer.parseInt(emailTextField.getText());
-				db.insertingIntoDB("book", ISBN, bookName);
+				String studentName = studentNameTextField.getText();
+				int iD = Integer.parseInt(IDTextField.getText());
+				db.insertingIntoDBMember("member", iD, studentName);
 
 				db.closeConnection();
 			}

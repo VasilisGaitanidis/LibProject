@@ -61,7 +61,7 @@ public class ReturnBookForm extends JInternalFrame {
 		setTitle("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 400, 281);
+		setBounds(0, 0, 350, 260);
 
 		JPanel panelData = new JPanel();
 		panelData
@@ -71,22 +71,20 @@ public class ReturnBookForm extends JInternalFrame {
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364,
-								Short.MAX_VALUE).addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.PREFERRED_SIZE,
-								223, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(53, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		JLabel IDLabel = new JLabel(
 				"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
@@ -114,15 +112,15 @@ public class ReturnBookForm extends JInternalFrame {
 		panelData.add(IDTextField);
 
 		JLabel returnDayLabel = new JLabel(
-				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
+				"\u0397\u03BC\u03AD\u03C1\u03B1 \u03A0\u03B1\u03C1\u03AC\u03B4\u03BF\u03C3\u03B7\u03C2:");
 		panelData.add(returnDayLabel);
 		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(
 				new Component[] { IDLabel, IDTextField, returnDayLabel,
 						returnDayTextField, fineLabel, fineTextField,
 						evaluationLabel, evaluationPanel, returnBookButton,
 						cancelButton }));
-
-		String date= new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());;
+		
+		String date= new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());		
 		returnDayTextField = new JTextField(date);
 		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		returnDayTextField.setBackground(Color.LIGHT_GRAY);
@@ -132,7 +130,8 @@ public class ReturnBookForm extends JInternalFrame {
 		fineLabel = new JLabel(
 				"\u03A0\u03C1\u03CC\u03C3\u03C4\u03B9\u03BC\u03BF /  \u0397\u03BC\u03AD\u03C1\u03B1:");
 		panelData.add(fineLabel);
-
+		
+		
 		fineTextField = new JTextField();
 		fineTextField.setColumns(10);
 		panelData.add(fineTextField);

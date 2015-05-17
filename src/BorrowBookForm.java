@@ -20,10 +20,15 @@ import javax.swing.UIManager;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+
 import javax.swing.SwingConstants;
 
 public class BorrowBookForm extends JInternalFrame {
@@ -37,6 +42,7 @@ public class BorrowBookForm extends JInternalFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
 	 */
 	public BorrowBookForm() {
 		setResizable(true);
@@ -46,7 +52,7 @@ public class BorrowBookForm extends JInternalFrame {
 		setTitle("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 484, 380);
+		setBounds(0, 0, 350, 240);
 
 		JPanel panelData = new JPanel();
 		panelData
@@ -55,47 +61,21 @@ public class BorrowBookForm extends JInternalFrame {
 						"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
-
-		JPanel panelButtons = new JPanel();
-		panelButtons.setBorder(new TitledBorder(null,
-				"\u03A3\u03B7\u03BC\u03B5\u03B9\u03CE\u03C3\u03B5\u03B9\u03C2",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								Alignment.LEADING,
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																panelButtons,
-																GroupLayout.DEFAULT_SIZE,
-																448,
-																Short.MAX_VALUE)
-														.addComponent(
-																panelData,
-																GroupLayout.PREFERRED_SIZE,
-																443,
-																GroupLayout.PREFERRED_SIZE))
-										.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.PREFERRED_SIZE,
-								189, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(panelButtons, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(23, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		JLabel ISBNLabel = new JLabel(
 				"ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
@@ -125,8 +105,8 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
 		panelData.add(borrowDayLabel);
 
-		String date = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());;
-		borrowDayTextField = new JTextField(date);
+		String borrowDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
+		borrowDayTextField = new JTextField(borrowDay);
 		borrowDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		borrowDayTextField.setBackground(Color.LIGHT_GRAY);
 		borrowDayTextField.setColumns(10);
@@ -135,8 +115,20 @@ public class BorrowBookForm extends JInternalFrame {
 		returnDayLabel = new JLabel(
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		panelData.add(returnDayLabel);
-
-		returnDayTextField = new JTextField();
+		
+		//String returnDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
+		
+		Calendar c = Calendar.getInstance();
+		Date dt = new Date();
+		DateFormat df = new SimpleDateFormat("dd-MM-yy");
+		c.setTime(dt); 
+		c.add(Calendar.DATE, 7);
+		dt = c.getTime();
+		String returnDay = df.format(dt);
+		
+		returnDayTextField = new JTextField(returnDay);
+		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		returnDayTextField.setBackground(Color.LIGHT_GRAY);
 		returnDayTextField.setColumns(10);
 		panelData.add(returnDayTextField);
 
@@ -144,27 +136,6 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
 		panelData.add(borrowBookButton);
 		panelData.add(cancelButton);
-
-		JTextPane borrowNotesTextPane = new JTextPane();
-		GroupLayout gl_panelButtons = new GroupLayout(panelButtons);
-		gl_panelButtons.setHorizontalGroup(gl_panelButtons.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panelButtons
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(borrowNotesTextPane,
-								GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-						.addContainerGap()));
-		gl_panelButtons.setVerticalGroup(gl_panelButtons.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panelButtons
-						.createSequentialGroup()
-						.addComponent(borrowNotesTextPane,
-								GroupLayout.PREFERRED_SIZE, 86,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		panelButtons.setLayout(gl_panelButtons);
 		getContentPane().setLayout(groupLayout);
 
 	}

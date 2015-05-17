@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class DatabaseHandling {
 	// C:\\Users\\Βασίλης\\workspace\\LibraryTest_v0.1\\
-	static final String DATABASE_URL = "jdbc:sqlite:testdb.sqlite"; // το ονομα
+	static final String DATABASE_URL = "jdbc:sqlite:LibUom.sqlite"; // το ονομα
 	// της βασης
 	// static final String USER = ""; //username & password
 	// static final String PASS = "";
@@ -63,6 +63,21 @@ public class DatabaseHandling {
 			// statement = connection.createStatement();
 			String sql = "INSERT INTO " + table + " VALUES (" + isbn + " ,'"
 					+ name + "' )";
+			statement.executeUpdate(sql); // update tn vasi
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void insertingIntoDBMember(String table, int iD, String memberName) {
+
+		try {
+			// statement = connection.createStatement();
+			String sql = "INSERT INTO " + table + " VALUES (" + iD + " ,'"
+					+ memberName + "' )";
 			statement.executeUpdate(sql); // update tn vasi
 		} catch (SQLException e) {
 			e.printStackTrace();
