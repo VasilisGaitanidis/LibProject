@@ -68,6 +68,11 @@ public class SearchForm extends JInternalFrame {
 
 		JButton cancelButton = new JButton(
 				"\u0391\u03BA\u03CD\u03C1\u03C9\u03C3\u03B7");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(
 				Alignment.TRAILING).addGroup(

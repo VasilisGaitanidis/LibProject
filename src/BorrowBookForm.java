@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BorrowBookForm extends JInternalFrame {
 	private JTextField ISBNTextField;
@@ -84,6 +86,11 @@ public class BorrowBookForm extends JInternalFrame {
 		ISBNTextField.setColumns(10);
 
 		JButton cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+			}
+		});
 		panelData.setLayout(new GridLayout(0, 2, 0, 0));
 		panelData.add(ISBNLabel);
 		panelData.add(ISBNTextField);
@@ -134,6 +141,11 @@ public class BorrowBookForm extends JInternalFrame {
 
 		borrowBookButton = new JButton(
 				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
+		borrowBookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		panelData.add(borrowBookButton);
 		panelData.add(cancelButton);
 		getContentPane().setLayout(groupLayout);

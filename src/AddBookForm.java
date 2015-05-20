@@ -11,15 +11,27 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+
+import model.classes.dto.Book;
+import model.classes.dto.Member;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
+
 import java.awt.Color;
 
 public class AddBookForm extends JInternalFrame {
@@ -40,7 +52,7 @@ public class AddBookForm extends JInternalFrame {
 	private JComboBox bookLanguageComboBox;
 
 	/**
-	 * Create the frame.
+	 * Dhmiourgia tou Frame.
 	 */
 	public AddBookForm() {
 		setResizable(true);
@@ -107,16 +119,37 @@ public class AddBookForm extends JInternalFrame {
 
 		addBookButton = new JButton(
 				"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
-		addBookButton.addActionListener(new ActionListener() {
+		addBookButton.addActionListener(new ActionListener() { //Button prosthikhs
 			public void actionPerformed(ActionEvent arg0) {
-
-				DatabaseHandling db = new DatabaseHandling();
-				db.establishConnection();
+				Book book = new Book();
 				String bookName = bookNameTextField.getText();
-				int ISBN = Integer.parseInt(ISBNTextField.getText());
-				db.insertingIntoDB("book", ISBN, bookName);
-
-				db.closeConnection();
+				String bookAuthor = bookAuthorTextField.getText();
+				String bookSubject = bookSubjectTextField.getText();
+				int bookPages = Integer.parseInt(bookPagesTextField.getText());
+				String bookPublisher = bookPublisherTextField.getText();
+				int bookEdition = Integer.parseInt(bookEditionTextField.getText());
+				String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
+				int iSBN = Integer.parseInt(ISBNTextField.getText());
+				
+				book.setBookName(bookName);
+				book.setBookAuthor(bookAuthor);
+				book.setBookSubject(bookSubject);
+				book.setBookPages(bookPages);
+				book.setBookPublisher(bookPublisher);
+				book.setBookEdition(bookEdition);
+				book.setBookLanguage(bookLanguage);
+				book.setiSBN(iSBN);//ISBN na pairnei parapanw noumera 
+				
+				Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			    configuration.configure();
+			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+			            configuration.getProperties()).build();
+			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+				Session session = sessionFactory.openSession();
+				session.beginTransaction();
+				session.saveOrUpdate(book);
+				session.getTransaction().commit();
+				session.close();				
 			}
 		});
 
@@ -192,6 +225,7 @@ public class AddBookForm extends JInternalFrame {
 		cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
 			}
 		});
 		panelData.add(cancelButton);
