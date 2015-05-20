@@ -12,7 +12,15 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
+import model.classes.dto.Book;
+import model.classes.dto.Member;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.awt.Component;
 
@@ -30,6 +38,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -142,6 +151,26 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
 		borrowBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			    configuration.configure();
+			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+			            configuration.getProperties()).build();
+			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+				Session session = sessionFactory.openSession();
+				
+				String iD = IDtextField.getText();
+				int iSBN = Integer.parseInt(ISBNTextField.getText());
+				
+				Member member = (Member)session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
+				Book book = (Book)session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
+				member.addBook(book);
+				book.setMember(member);
+				
+				session.beginTransaction();
+				session.saveOrUpdate(member);
+				session.saveOrUpdate(book);
+				session.getTransaction().commit();
+				session.close();
 				
 			}
 		});

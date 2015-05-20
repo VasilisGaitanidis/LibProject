@@ -139,6 +139,7 @@ public class AddMemberForm extends JInternalFrame {
 				String department = departmentComboBox.getSelectedItem().toString();
 				String email = emailTextField.getText();
 				
+				
 				member.setStudentName(studentName);
 				member.setStudentSurname(studentSurname);
 				member.setiD(iD);
