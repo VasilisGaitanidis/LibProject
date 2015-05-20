@@ -26,11 +26,13 @@ public class Member {
 	@Column (name = "Εmail",nullable=false)
 	private String email;
 	@Column (name = "Πρόστιμο")
-	private int latePoints;
+	private double latePoints;
 	@OneToMany(mappedBy="member")//Dhlwsh syxetishs Ena pros Polla apo Melos se Vivlio
 	private Collection<Book> books = new ArrayList<Book>(); //Lista Vivliwn pou exei daneistei to melos
 	
-	
+	public void addBook(Book book) {
+		books.add(book);
+	}
 	public String getStudentName() {
 		return studentName;
 	}
@@ -61,7 +63,7 @@ public class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getLatePoints() {
+	public double getLatePoints() {
 		return latePoints;
 	}
 	public void setLatePoints(int latePoints) {

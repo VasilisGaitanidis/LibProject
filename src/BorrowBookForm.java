@@ -123,8 +123,7 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		panelData.add(returnDayLabel);
 		
-		//String returnDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
-		
+		//Prosthiki 7 hmerwn gia tn epistrofh vivlioy
 		Calendar c = Calendar.getInstance();
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("dd-MM-yy");
