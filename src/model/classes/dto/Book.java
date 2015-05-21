@@ -29,10 +29,9 @@ public class Book {
 	@Column (name = "ISBN",nullable=false)
 	private int iSBN;
 	@ManyToOne                 //Dhlwsh Sysxetishs Polla pros Ena apo Vivlio se Melos
-	@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
+	//@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
 	private Member member;         // p dhlwnei to ID tou katoxou
     //private String bookNotes;
-	
 	
 	public String getBookName() {
 		return bookName;
@@ -88,4 +87,6 @@ public class Book {
 	public void setMember(Member member) {
 		this.member = member;
 	}
+	
+	
 }

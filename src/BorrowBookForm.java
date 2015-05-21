@@ -161,10 +161,14 @@ public class BorrowBookForm extends JInternalFrame {
 				String iD = IDtextField.getText();
 				int iSBN = Integer.parseInt(ISBNTextField.getText());
 				
-				Member member = (Member)session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
-				Book book = (Book)session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
-				member.addBook(book);
+				Member member = (Member) session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
+				Book book = (Book) session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
+				
+				member.getBooks().add(book);
 				book.setMember(member);
+				
+				/*member.addBook(book);
+				book.setMember(member);*/
 				
 				session.beginTransaction();
 				session.saveOrUpdate(member);
