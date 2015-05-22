@@ -12,13 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table (name = "Δανεισμοί")
 public class MemberBook implements java.io.Serializable{	
-
-	@Column (name = "Ημέρα_Δανεισμού")
-	private String borrowDay;
-	@Column (name = "Ημέρα_Επιστροφής")
-	private String returnDay;
-	@Column (name = "Ημέρα_Παράδοσης")
-	private String deliveryDay;
+	
+	
 	@Id                              // Primary Key to ID tou katoxou
 	@ManyToOne                       //Dhlwsh Sysxetishs Polla pros Ena
 	@JoinColumn(name="ΑΜ_Κατόχου")   // Onomasia extra sthlhs ston pinaka Daneismou
@@ -27,7 +22,12 @@ public class MemberBook implements java.io.Serializable{
 	@ManyToOne                       //Dhlwsh Sysxetishs Polla pros Ena 
 	@JoinColumn(name="ISBN_Βιβλίου") // Onomasia extra sthlhs ston pinaka Daneismou
 	private Book book;
-	
+	@Column (name = "Ημέρα_Δανεισμού")
+	private String borrowDay;
+	@Column (name = "Ημέρα_Επιστροφής")
+	private String returnDay;
+	@Column (name = "Ημέρα_Παράδοσης")
+	private String deliveryDay;
 	
 	public String getBorrowDay() {
 		return borrowDay;

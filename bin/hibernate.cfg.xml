@@ -54,6 +54,7 @@
         <!-- Names the annotated entity class -->
         <mapping class="model.classes.dto.Member"/>
         <mapping class="model.classes.dto.Book"/>
+        <mapping class="model.classes.dto.MemberBook"/>
 
     </session-factory>
 

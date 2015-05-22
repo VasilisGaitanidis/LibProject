@@ -36,10 +36,19 @@ public class Book {
 	@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
 	private Member member;         // p dhlwnei to ID tou katoxou
 	@OneToMany(mappedBy="book")
-	private Collection<MemberBook> mb = new ArrayList<MemberBook>();
-    //private String bookNotes;*/
+	private Collection<MemberBook> mb = new ArrayList<MemberBook>();	
+	@Column (name = "Αξιολόγηση")
+    private double bookEvaluation;
 	
 	
+	
+	
+	public double getBookEvaluation() {
+		return bookEvaluation;
+	}
+	public void setBookEvaluation(double bookEvaluation) {
+		this.bookEvaluation = bookEvaluation;
+	}
 	public String getBookName() {
 		return bookName;
 	}

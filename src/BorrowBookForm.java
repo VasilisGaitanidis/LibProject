@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
@@ -45,7 +46,7 @@ import java.awt.event.ActionEvent;
 
 public class BorrowBookForm extends JInternalFrame {
 	private JTextField ISBNTextField;
-	private JTextField IDtextField;
+	private JTextField IDTextField;
 	private JTextField borrowDayTextField;
 	private JTextField returnDayTextField;
 	private JLabel returnDayLabel;
@@ -110,13 +111,13 @@ public class BorrowBookForm extends JInternalFrame {
 		panelData.add(IDLabel);
 		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(
 				new Component[] { ISBNLabel, ISBNTextField, IDLabel,
-						IDtextField, borrowDayLabel, borrowDayTextField,
+						IDTextField, borrowDayLabel, borrowDayTextField,
 						returnDayLabel, returnDayTextField, borrowBookButton,
 						cancelButton }));
 
-		IDtextField = new JTextField();
-		IDtextField.setColumns(10);
-		panelData.add(IDtextField);
+		IDTextField = new JTextField();
+		IDTextField.setColumns(10);
+		panelData.add(IDTextField);
 
 		borrowDayLabel = new JLabel(
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
@@ -153,30 +154,49 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
 		borrowBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+				Configuration configuration = new Configuration();		//Connection me Database kai eggrafh stoixeiwn apo TExtFields
 			    configuration.configure();
 			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 			            configuration.getProperties()).build();
 			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 				Session session = sessionFactory.openSession();
 				
-				String iD = IDtextField.getText();
+				String iD = IDTextField.getText();
 				int iSBN = Integer.parseInt(ISBNTextField.getText());
 				
-				MemberBook mb = new MemberBook();                      //Neos Daneismos EDW NA MPEI ELEGXOS AN YPARXEI TO BOOK
-				mb.setBorrowDay(borrowDay);                           //Gemizw ta kelia hmerwn daneismou kai epistroghs 
-				mb.setReturnDay(returnDay);							  //ths ontothtas-pinaka MemberBook
-			    
-				Member member = (Member)session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
-				Book book = (Book)session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
-				book.setMember(member);                             //Ston pinaka tou Vivliou vazw aytomata to AM tou katoxou
-				mb.setMember(member);                               //Ston pinaka Daneismou(MemberBook) vazw ksena kleidia ta
-				mb.setBook(book);                                   //AM foithth kai ISBN tou vivliou poy daneizetai
+				Member member = (Member)session.get(Member.class,iD);	//Pairnw to melos me ID(to id apo TextField)
+				Book book = (Book)session.get(Book.class,iSBN);			//Pairnw to vivlio me ISBN(to ISBN apo TextField)
 				
-				session.beginTransaction();
-				session.saveOrUpdate(book);
-				session.saveOrUpdate(mb);
-				session.getTransaction().commit();
+				
+				
+				
+				Member memberOwner = book.getMember();	//null if nobody owns a book
+				
+				if(memberOwner == null) {
+					MemberBook mb = new MemberBook();	//Neos Daneismos EDW NA MPEI ELEGXOS AN YPARXEI TO BOOK
+					mb.setBorrowDay(borrowDay);			//Gemizw ta kelia hmerwn daneismou kai epistroghs 
+					mb.setReturnDay(returnDay);			//ths ontothtas-pinaka MemberBook
+				    								
+					book.setMember(member);				//Ston pinaka tou Vivliou vazw aytomata to AM tou katoxou
+					mb.setMember(member);				//Ston pinaka Daneismou(MemberBook) vazw ksena kleidia ta
+					mb.setBook(book);					//AM foithth kai ISBN tou vivliou poy daneizetai
+					
+					session.beginTransaction();
+					session.saveOrUpdate(book);
+					session.saveOrUpdate(mb);
+					session.getTransaction().commit();
+					
+				}
+				else {
+					String aMOwner = memberOwner.getiD();	//AM Katoxou vivliou
+					JOptionPane.showMessageDialog(null,
+							"Το βιβλίο με ISBN " + iSBN + " είναι ήδη δανεισμένο στον " + aMOwner, "Σφάλμα Δανεισμού!",
+							JOptionPane.ERROR_MESSAGE);
+					ISBNTextField.setText(null);
+				}
+				
+				
+				
 				session.close();
 				
 			}

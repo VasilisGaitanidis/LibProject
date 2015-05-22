@@ -12,7 +12,16 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
+import model.classes.dto.Book;
+import model.classes.dto.Member;
+import model.classes.dto.MemberBook;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -92,13 +101,7 @@ public class ReturnBookForm extends JInternalFrame {
 		IDTextField = new JTextField();
 		IDTextField.setColumns(10);
 
-		returnBookButton = new JButton(
-				"\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE");
-		returnBookButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
+		
 		panelData.setLayout(new GridLayout(0, 2, 0, 0));
 
 		JLabel ISBNLabel = new JLabel(
@@ -120,8 +123,8 @@ public class ReturnBookForm extends JInternalFrame {
 						evaluationLabel, evaluationPanel, returnBookButton,
 						cancelButton }));
 		
-		String date= new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());		
-		returnDayTextField = new JTextField(date);
+		String deliveryDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());		
+		returnDayTextField = new JTextField(deliveryDay);
 		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		returnDayTextField.setBackground(Color.LIGHT_GRAY);
 		returnDayTextField.setColumns(10);
@@ -166,6 +169,35 @@ public class ReturnBookForm extends JInternalFrame {
 		evaluationPanel.add(evaluationRadioButton4);
 		evaluationPanel.add(evaluationRadioButton5);
 		panelData.add(returnBookButton);
+		
+		returnBookButton = new JButton(
+				"\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE");
+		returnBookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Configuration configuration = new Configuration();		//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			    configuration.configure();
+			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+			            configuration.getProperties()).build();
+			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+				Session session = sessionFactory.openSession();
+				
+				String iD = IDTextField.getText();
+				int iSBN = Integer.parseInt(ISBNTextField.getText());
+				double fine = Double.parseDouble(fineTextField.getText());
+				
+				//MemberBook mb = (MemberBook) session.get(MemberBook.class,  iSBN,iD);//new MemberBook();
+				//mb.setDeliveryDay(deliveryDay);
+				
+				
+				
+				
+				Member member = (Member)session.get(Member.class,iD);	//Pairnw to melos me ID(to id apo TextField)
+				Book book = (Book)session.get(Book.class,iSBN);			//Pairnw to vivlio me ISBN(to ISBN apo TextField)
+				
+				
+
+			}
+		});
 
 		cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
 		cancelButton.addActionListener(new ActionListener() {
