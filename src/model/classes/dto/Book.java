@@ -1,10 +1,14 @@
 package model.classes.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity                           //Kathorismos Ontothtas Vivliwn.
@@ -29,9 +33,12 @@ public class Book {
 	@Column (name = "ISBN",nullable=false)
 	private int iSBN;
 	@ManyToOne                 //Dhlwsh Sysxetishs Polla pros Ena apo Vivlio se Melos
-	//@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
+	@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
 	private Member member;         // p dhlwnei to ID tou katoxou
-    //private String bookNotes;
+	@OneToMany(mappedBy="book")
+	private Collection<MemberBook> mb = new ArrayList<MemberBook>();
+    //private String bookNotes;*/
+	
 	
 	public String getBookName() {
 		return bookName;
@@ -87,6 +94,10 @@ public class Book {
 	public void setMember(Member member) {
 		this.member = member;
 	}
-	
-	
+	public Collection<MemberBook> getMb() {
+		return mb;
+	}
+	public void setMb(Collection<MemberBook> mb) {
+		this.mb = mb;
+	}
 }

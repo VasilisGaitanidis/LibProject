@@ -14,6 +14,7 @@ import javax.swing.JTextPane;
 
 import model.classes.dto.Book;
 import model.classes.dto.Member;
+import model.classes.dto.MemberBook;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import org.hibernate.Session;
@@ -132,7 +133,8 @@ public class BorrowBookForm extends JInternalFrame {
 				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		panelData.add(returnDayLabel);
 		
-		//Prosthiki 7 hmerwn gia tn epistrofh vivlioy
+		//String returnDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
+		
 		Calendar c = Calendar.getInstance();
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("dd-MM-yy");
@@ -161,18 +163,19 @@ public class BorrowBookForm extends JInternalFrame {
 				String iD = IDtextField.getText();
 				int iSBN = Integer.parseInt(ISBNTextField.getText());
 				
-				Member member = (Member) session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
-				Book book = (Book) session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
-				
-				member.getBooks().add(book);
-				book.setMember(member);
-				
-				/*member.addBook(book);
-				book.setMember(member);*/
+				MemberBook mb = new MemberBook();                      //Neos Daneismos EDW NA MPEI ELEGXOS AN YPARXEI TO BOOK
+				mb.setBorrowDay(borrowDay);                           //Gemizw ta kelia hmerwn daneismou kai epistroghs 
+				mb.setReturnDay(returnDay);							  //ths ontothtas-pinaka MemberBook
+			    
+				Member member = (Member)session.get(Member.class,iD);//Pairnw to melos me ID(to id apo TextField)
+				Book book = (Book)session.get(Book.class,iSBN);     //Pairnw to vivlio me ISBN(to ISBN apo TextField)
+				book.setMember(member);                             //Ston pinaka tou Vivliou vazw aytomata to AM tou katoxou
+				mb.setMember(member);                               //Ston pinaka Daneismou(MemberBook) vazw ksena kleidia ta
+				mb.setBook(book);                                   //AM foithth kai ISBN tou vivliou poy daneizetai
 				
 				session.beginTransaction();
-				session.saveOrUpdate(member);
 				session.saveOrUpdate(book);
+				session.saveOrUpdate(mb);
 				session.getTransaction().commit();
 				session.close();
 				
