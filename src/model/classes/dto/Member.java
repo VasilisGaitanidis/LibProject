@@ -26,7 +26,7 @@ public class Member {
 	@Column (name = "Εmail",nullable=false)
 	private String email;
 	@Column (name = "Πρόστιμο")
-	private int latePoints;
+	private double latePoints;
 	@OneToMany(mappedBy="member")//Dhlwsh syxetishs Ena pros Polla apo Melos se Vivlio
 	private Collection<Book> books = new ArrayList<Book>(); //Lista Vivliwn pou exei daneistei to melos
 	@OneToMany(mappedBy="member")
@@ -75,10 +75,10 @@ public class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getLatePoints() {
+	public double getLatePoints() {
 		return latePoints;
 	}
-	public void setLatePoints(int latePoints) {
+	public void setLatePoints(double latePoints) {
 		this.latePoints = latePoints;
 	}
 	}

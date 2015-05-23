@@ -165,12 +165,10 @@ public class BorrowBookForm extends JInternalFrame {
 				int iSBN = Integer.parseInt(ISBNTextField.getText());
 				
 				Member member = (Member)session.get(Member.class,iD);	//Pairnw to melos me ID(to id apo TextField)
-				Book book = (Book)session.get(Book.class,iSBN);			//Pairnw to vivlio me ISBN(to ISBN apo TextField)
-				
-				
-				
+				Book book = (Book)session.get(Book.class,iSBN);			//Pairnw to vivlio me ISBN(to ISBN apo TextField)				
 				
 				Member memberOwner = book.getMember();	//null if nobody owns a book
+				
 				
 				if(memberOwner == null) {
 					MemberBook mb = new MemberBook();	//Neos Daneismos EDW NA MPEI ELEGXOS AN YPARXEI TO BOOK
@@ -186,6 +184,11 @@ public class BorrowBookForm extends JInternalFrame {
 					session.saveOrUpdate(mb);
 					session.getTransaction().commit();
 					
+					String borrowID = Integer.toString(mb.getBorrowID());
+					JOptionPane.showMessageDialog(null,
+							"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
+							JOptionPane.INFORMATION_MESSAGE);
+					ISBNTextField.setText(null);
 				}
 				else {
 					String aMOwner = memberOwner.getiD();	//AM Katoxou vivliou
@@ -194,8 +197,6 @@ public class BorrowBookForm extends JInternalFrame {
 							JOptionPane.ERROR_MESSAGE);
 					ISBNTextField.setText(null);
 				}
-				
-				
 				
 				session.close();
 				

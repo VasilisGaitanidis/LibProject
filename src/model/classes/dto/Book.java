@@ -39,16 +39,10 @@ public class Book {
 	private Collection<MemberBook> mb = new ArrayList<MemberBook>();	
 	@Column (name = "Αξιολόγηση")
     private double bookEvaluation;
+	@Column (name = "Συνολικοί_Δανεισμοί")
+	private int nOBorrows;
 	
 	
-	
-	
-	public double getBookEvaluation() {
-		return bookEvaluation;
-	}
-	public void setBookEvaluation(double bookEvaluation) {
-		this.bookEvaluation = bookEvaluation;
-	}
 	public String getBookName() {
 		return bookName;
 	}
@@ -109,4 +103,17 @@ public class Book {
 	public void setMb(Collection<MemberBook> mb) {
 		this.mb = mb;
 	}
+	public double getBookEvaluation() {
+		return bookEvaluation;
+	}
+	public void setBookEvaluation(double bookEvaluation) {
+		this.bookEvaluation = bookEvaluation;
+	}
+	public int getnOBorrows() {
+		return nOBorrows;
+	}
+	public void setnOBorrows(int nOBorrows) {
+		this.nOBorrows = nOBorrows;
+	}
+		
 }
