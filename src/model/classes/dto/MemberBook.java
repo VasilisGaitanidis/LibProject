@@ -12,7 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name = "Δανεισμοί")
-@SequenceGenerator(name="seq", initialValue=1, allocationSize=1)
+//Dimiourgia ID me generator.
+@SequenceGenerator(name="seq", initialValue=1, allocationSize=1)	
 public class MemberBook implements java.io.Serializable{	
 	
 	//Join Column from member
@@ -25,6 +26,7 @@ public class MemberBook implements java.io.Serializable{
 	private Book book;
 	// Primary key for table 'Δανεισμοί' with generated values
 	@Id
+	//Dimiourgia ID me generator.
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
 	private int borrowID;
 	@Column (name = "Ημέρα_Δανεισμού")

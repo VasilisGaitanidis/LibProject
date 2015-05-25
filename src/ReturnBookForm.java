@@ -5,14 +5,11 @@ import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
-
 import model.classes.dto.Book;
 import model.classes.dto.Member;
 import model.classes.dto.MemberBook;
@@ -29,11 +26,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.MatteBorder;
-
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,9 +33,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.UIManager;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class ReturnBookForm extends JInternalFrame {
 	private JTextField returnDayTextField;
@@ -53,13 +46,6 @@ public class ReturnBookForm extends JInternalFrame {
 	private JTextField borrowIDTextField;
 	private JLabel fineLabel;
 	private JButton cancelButton;
-	private JRadioButton evaluationRadioButton1;
-	private JRadioButton evaluationRadioButton2;
-	private JRadioButton evaluationRadioButton3;
-	private JRadioButton evaluationRadioButton4;
-	private JRadioButton evaluationRadioButton5;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JPanel evaluationPanel;
 
 	/**
 	 * Create the frame.
@@ -131,33 +117,10 @@ public class ReturnBookForm extends JInternalFrame {
 		evaluationLabel = new JLabel(
 				"\u0391\u03BE\u03B9\u03BF\u03BB\u03CC\u03B3\u03B7\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		panelData.add(evaluationLabel);
-
-		evaluationPanel = new JPanel();
-		panelData.add(evaluationPanel);
-		evaluationPanel.setBorder(null);
 		
-		evaluationRadioButton1 = new JRadioButton("1");
-		buttonGroup.add(evaluationRadioButton1);
-
-		evaluationRadioButton2 = new JRadioButton("2");
-		buttonGroup.add(evaluationRadioButton2);
-
-		evaluationRadioButton3 = new JRadioButton("3");
-		buttonGroup.add(evaluationRadioButton3);
-		evaluationRadioButton3.setSelected(true);
-
-		evaluationRadioButton4 = new JRadioButton("4");
-		buttonGroup.add(evaluationRadioButton4);
-
-		evaluationRadioButton5 = new JRadioButton("5");
-		buttonGroup.add(evaluationRadioButton5);
-		evaluationPanel.setLayout(new GridLayout(0, 5, 0, 0));
-		
-		evaluationPanel.add(evaluationRadioButton1);
-		evaluationPanel.add(evaluationRadioButton2);
-		evaluationPanel.add(evaluationRadioButton3);
-		evaluationPanel.add(evaluationRadioButton4);
-		evaluationPanel.add(evaluationRadioButton5);
+		JSpinner evaluationSpinner = new JSpinner();
+		evaluationSpinner.setModel(new SpinnerNumberModel(1.0, 1.0, 5.0, 1.0));
+		panelData.add(evaluationSpinner);
 		
 		returnBookButton = new JButton("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE");
 		returnBookButton.addActionListener(new ActionListener() {
@@ -220,17 +183,13 @@ public class ReturnBookForm extends JInternalFrame {
 				book.setnOBorrows(totalBorrows);
 				
 				
-				if(e.getSource() instanceof JRadioButton) {		//Den mpainei
-		            JRadioButton radioButton = (JRadioButton) e.getSource();
-		            if(radioButton.isSelected()) {
-		               double evaluation = Double.parseDouble(radioButton.getText());
-		               
-		               double evAverage = evaluation / totalBorrows;
-						book.setBookEvaluation(evAverage);
-		               
-		               System.out.println("Synolikoi Daneismoi=" + totalBorrows + ", Aksiologisi=" + evAverage);
-		            }
-		        }
+				
+				double evaluation = (double)(evaluationSpinner.getValue());
+		        double evAverage = evaluation / totalBorrows;
+				book.setBookEvaluation(evAverage);
+		        //System.out.println("Synolikoi Daneismoi=" + totalBorrows + ", Aksiologisi=" + evAverage);
+		            
+		        
 				// nobody has the book
 				book.setMember(null);
 				
@@ -243,6 +202,8 @@ public class ReturnBookForm extends JInternalFrame {
 				session.close();
 			}
 		});
+		
+		
 		panelData.add(returnBookButton);
 
 		cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");

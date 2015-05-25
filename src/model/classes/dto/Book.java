@@ -11,12 +11,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity                           //Kathorismos Ontothtas Vivliwn.
+@Entity								//Kathorismos Ontothtas Vivliwn.
 @Table (name = "Βιβλία")            //Onomasia pinaka Vivliwn
 public class Book {
 	
-	@Column (name = "Όνομα",nullable=false)     //@Column (name=)--> Allagh onomatos Sthlhs 
-	private String bookName;     //                   se Bash Dedomenwn
+	@Column (name = "Όνομα",nullable=false)    		 //@Column (name=)--> Allagh onomatos Sthlhs 
+	private String bookName;						//se Bash Dedomenwn
 	@Column (name = "Συγγραφέας",nullable=false)
 	private String bookAuthor;
 	@Column (name = "Θέμα",nullable=false)
@@ -29,12 +29,12 @@ public class Book {
 	private int bookEdition;
 	@Column (name = "Γλώσσα",nullable=false)
 	private String bookLanguage;
-	@Id                         //Dhlwsh tou ISBN san prwteuon kleidi
+	@Id                        				//Dhlwsh tou ISBN san prwteuon kleidi
 	@Column (name = "ISBN",nullable=false)
 	private int iSBN;
-	@ManyToOne                 //Dhlwsh Sysxetishs Polla pros Ena apo Vivlio se Melos
-	@JoinColumn(name="ΑΜ_Κατόχου") // Onomasia extra sthlhs ston pinaka twn Vivliwn 
-	private Member member;         // p dhlwnei to ID tou katoxou
+	@ManyToOne                				//Dhlwsh Sysxetishs Polla pros Ena apo Vivlio se Melos
+	@JoinColumn(name="ΑΜ_Κατόχου")			// Onomasia extra sthlhs ston pinaka twn Vivliwn 
+	private Member member;        			// p dhlwnei to ID tou katoxou
 	@OneToMany(mappedBy="book")
 	private Collection<MemberBook> mb = new ArrayList<MemberBook>();	
 	@Column (name = "Αξιολόγηση")
