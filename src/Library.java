@@ -21,8 +21,19 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.KeyStroke;
 
+import model.classes.dto.Book;
+import model.classes.dto.Member;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.util.List;
 
 public class Library extends JFrame {
 
@@ -295,9 +306,21 @@ public class Library extends JFrame {
 	class PopularBooksActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,
-					"Εμφάνιση των Δημοφιλών Βιβλίων ανά μήνα",
-					"Δημοφιλή Βιβλία", JOptionPane.INFORMATION_MESSAGE);
+			Configuration configuration = new Configuration();	//Connection me Database
+		    configuration.configure();
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+		            configuration.getProperties()).build();
+		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from Book order by nOBorrows desc");
+			List<Book> books = (List<Book>) query.list();
+			session.getTransaction().commit();
+			session.close();
+			for (Book b : books)
+				System.out.printf(b.getnOBorrows()+b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");	   
+			System.out.println();
 		}
 	}
 
@@ -317,10 +340,21 @@ public class Library extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,
-					"Εμφάνιση των ασυνεπών χρηστών", "Ασυνεπείς Χρήστες",
-					JOptionPane.WARNING_MESSAGE);
-
+			Configuration configuration = new Configuration();	//Connection me Database
+		    configuration.configure();
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+		            configuration.getProperties()).build();
+		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from Member order by latePoints desc");
+			List<Member> members = (List<Member>) query.list();
+			session.getTransaction().commit();
+			session.close();
+			for (Member m : members)
+				   System.out.printf(m.getLatePoints()+m.getiD()+"  \t"+m.getStudentName()+"  \t"+m.getStudentSurname()+"  \t"+m.getEmail()+"  \t"+m.getDepartment()+"\n");
+			System.out.println();
 		}
 
 	}

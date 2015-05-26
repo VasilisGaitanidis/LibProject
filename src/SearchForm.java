@@ -8,28 +8,56 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+
+import model.classes.dto.Book;
+import model.classes.dto.Member;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
+
 import java.awt.Color;
+
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
+
 import java.awt.FlowLayout;
+
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+
 import javax.swing.BoxLayout;
+
 import java.awt.Font;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SearchForm extends JInternalFrame {
 	private JTextField bookKeyWordTextField;
@@ -173,7 +201,38 @@ public class SearchForm extends JInternalFrame {
 				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
+				String memberSeachKey = memberSearchComboBox.getSelectedItem().toString();
+				String memberSearchSelection = memberKeyWordTextField.getText();
+				
+				Configuration configuration = new Configuration();	//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			    configuration.configure();
+			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+			            configuration.getProperties()).build();
+			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+				Session session = sessionFactory.openSession();
+				session.beginTransaction();
+				
+				if (memberSeachKey.equals("Αριθμό Μητρώου")){
+					Query query = session.createQuery("from Member where iD =?");
+					query.setString(0,memberSearchSelection);
+					List<Member> members = (List<Member>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					for (Member m : members)
+						   System.out.printf(m.getiD()+"  \t"+m.getStudentName()+"  \t"+m.getStudentSurname()+"  \t"+m.getEmail()+"  \t"+m.getDepartment()+"  \t"+m.getLatePoints()+"  \t"+"\n");
+					System.out.println();
+				}
+				else if (memberSeachKey.equals("Τμήμα")){
+					Query query = session.createQuery("from Member where department =?");
+					query.setString(0,memberSearchSelection);
+					List<Member> members = (List<Member>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					for (Member m : members)
+						   System.out.printf(m.getiD()+"  \t"+m.getStudentName()+"  \t"+m.getStudentSurname()+"  \t"+m.getEmail()+"  \t"+m.getDepartment()+"  \t"+m.getLatePoints()+"  \t"+"\n");
+					System.out.println();
+				}
+			}		
 		});
 		GroupLayout gl_searchMemberPanel = new GroupLayout(searchMemberPanel);
 		gl_searchMemberPanel
@@ -294,6 +353,79 @@ public class SearchForm extends JInternalFrame {
 
 		JButton searchBookButton = new JButton(
 				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		searchBookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String bookSearchSelection = bookKeyWordTextField.getText();
+				String bookSeachKey = bookSearchComboBox.getSelectedItem().toString();
+				
+				Configuration configuration = new Configuration();	//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			    configuration.configure();
+			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+			            configuration.getProperties()).build();
+			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+				Session session = sessionFactory.openSession();
+				session.beginTransaction();
+				
+				if (bookSeachKey.equals("Όνομα")){
+					Query query = session.createQuery("from Book where bookName =?");
+					query.setString(0, bookSearchSelection);
+					List<Book> books = (List<Book>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					//JOptionPane.showMessageDialog(null,Arrays.toString(books.toArray()),"onoma",JOptionPane.INFORMATION_MESSAGE);
+					//String selectedProducts = (String) products.get(selectedLines[i]).getProductName();
+					//+ Arrays.toString(selectedProd.toArray())
+					//System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
+					for (Book b : books)
+					   System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
+					System.out.println();
+				}
+				else if (bookSeachKey.equals("Συγγραφέα")){
+					Query query = session.createQuery("from Book where bookAuthor =?");
+					query.setString(0, bookSearchSelection);
+					List<Book> books = (List<Book>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					//System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
+					for (Book b : books)
+					   System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
+					System.out.println();
+				}
+				else if (bookSeachKey.equals("Θέμα")){
+					Query query = session.createQuery("from Book where bookSubject =?");
+					query.setString(0, bookSearchSelection);
+					List<Book> books = (List<Book>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					//System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
+					for (Book b : books)
+					   System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
+					System.out.println();
+				}
+				else if (bookSeachKey.equals("Εκδοτικό Οίκο")){
+					Query query = session.createQuery("from Book where bookPublisher =?");
+					query.setString(0, bookSearchSelection);
+					List<Book> books = (List<Book>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					//System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
+					for (Book b : books)
+					   System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
+					System.out.println();
+				}
+				else if (bookSeachKey.equals("ISBN")){
+					Query query = session.createQuery("from Book where iSBN =?");
+					query.setInteger(0,Integer.parseInt(bookSearchSelection));
+					List<Book> books = (List<Book>) query.list();
+					session.getTransaction().commit();
+					session.close();
+					//System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
+					for (Book b : books)
+					   System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
+					System.out.println();
+				}
+			}
+		});
 		GroupLayout gl_searchBookPanel = new GroupLayout(searchBookPanel);
 		gl_searchBookPanel
 				.setHorizontalGroup(gl_searchBookPanel
