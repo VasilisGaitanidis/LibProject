@@ -319,7 +319,7 @@ public class Library extends JFrame {
 			session.getTransaction().commit();
 			session.close();
 			for (Book b : books)
-				System.out.printf(b.getnOBorrows()+b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");	   
+				System.out.printf(b.getnOBorrows()+"\t"+b.getiSBN()+"\t"+b.getBookName()+"\t"+b.getBookAuthor()+"\t"+b.getBookPublisher()+"\t"+b.getBookSubject()+"\t"+b.getBookLanguage()+"\t"+b.getBookEvaluation()+"\n");	   
 			System.out.println();
 		}
 	}
@@ -353,7 +353,7 @@ public class Library extends JFrame {
 			session.getTransaction().commit();
 			session.close();
 			for (Member m : members)
-				   System.out.printf(m.getLatePoints()+m.getiD()+"  \t"+m.getStudentName()+"  \t"+m.getStudentSurname()+"  \t"+m.getEmail()+"  \t"+m.getDepartment()+"\n");
+				   System.out.printf(m.getLatePoints()+"\t"+m.getiD()+"\t"+m.getStudentName()+"\t"+m.getStudentSurname()+"\t"+m.getEmail()+"\t"+m.getDepartment()+"\n");
 			System.out.println();
 		}
 
