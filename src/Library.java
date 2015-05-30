@@ -1,9 +1,11 @@
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -14,14 +16,13 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.KeyStroke;
 
 import model.classes.dto.Book;
 import model.classes.dto.Member;
@@ -32,11 +33,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Library extends JFrame {
 
@@ -189,7 +185,7 @@ public class Library extends JFrame {
 		helpJMenu.add(mnAboutJMenu);
 
 		JMenuItem mntmCopyrightJMenuItem = new JMenuItem(
-				"copyright \u00A9 2015 Gaitanidis");
+				"copyright \u00A9 2015 Gaitanidis & Georgaras");
 		mnAboutJMenu.add(mntmCopyrightJMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -329,7 +325,7 @@ public class Library extends JFrame {
 
             JFrame frame = new JFrame("10 Δημοφιλέστερα Βιβλία");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.add(new JScrollPane(table));
+            frame.getContentPane().add(new JScrollPane(table));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -377,7 +373,7 @@ public class Library extends JFrame {
 
             JFrame frame = new JFrame("Οι 5 πιο ασυνεπείς χρήστες");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.add(new JScrollPane(table));
+            frame.getContentPane().add(new JScrollPane(table));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

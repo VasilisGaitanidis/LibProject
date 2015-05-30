@@ -1,16 +1,21 @@
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JInternalFrame;
-import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
 import model.classes.dto.Member;
 
@@ -21,17 +26,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-
-import javax.swing.UIManager;
-
-import java.awt.Color;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 public class AddMemberForm extends JInternalFrame {
 	private JTextField studentNameTextField;
 	private JTextField studentSurnameTextField;
@@ -41,12 +35,12 @@ public class AddMemberForm extends JInternalFrame {
 	private JLabel emailLabel;
 	private JButton addMemberButton;
 	private JLabel IDLabel;
-	private JButton cancelButton;
+	private JButton clearButton;
 	private JLabel studentNameLabel;
 	private JComboBox departmentComboBox;
 
 	/**
-	 * Dhmiourgia tou Frame.
+	 * Create the Frame.
 	 */
 	public AddMemberForm() {
 		setResizable(true);
@@ -65,23 +59,20 @@ public class AddMemberForm extends JInternalFrame {
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364,
-								Short.MAX_VALUE).addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.PREFERRED_SIZE,
-								185, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(174, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		studentNameLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1:");
 
@@ -121,47 +112,68 @@ public class AddMemberForm extends JInternalFrame {
 		emailTextField.setColumns(10);
 		panelData.add(emailTextField);
 
-		cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-			}
-		});
+		clearButton = new JButton("\u039A\u03B1\u03B8\u03B1\u03C1\u03B9\u03C3\u03BC\u03CC\u03C2");
+		clearButton.addActionListener(new ClearMemberActionListener());
 
 		addMemberButton = new JButton(
 				"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
-		addMemberButton.addActionListener(new ActionListener() { //--->Button Prosthikhs Melous
-			public void actionPerformed(ActionEvent arg0) {
-				Member member = new Member();
-				String studentName = studentNameTextField.getText();
-				String studentSurname = studentSurnameTextField.getText();
-				String iD = IDTextField.getText();
-				String department = departmentComboBox.getSelectedItem().toString();
-				String email = emailTextField.getText();
-				
-				
-				member.setStudentName(studentName);
-				member.setStudentSurname(studentSurname);
-				member.setiD(iD);
-				member.setDepartment(department);
-				member.setEmail(email);
-				
-				Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
-			    configuration.configure();
-			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-			            configuration.getProperties()).build();
-			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-				Session session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.saveOrUpdate(member);
-				session.getTransaction().commit();
-				session.close();				
-			}
-		});
+		addMemberButton.addActionListener(new AddMemberActionListener());
+		
 		panelData.add(addMemberButton);
-		panelData.add(cancelButton);
-		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{studentNameLabel, studentNameTextField, studentSurnameLabel, studentSurnameTextField, IDLabel, IDTextField, departmentLabel, emailLabel, emailTextField, addMemberButton, cancelButton}));
+		panelData.add(clearButton);
+		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{studentNameLabel, studentNameTextField, studentSurnameLabel, studentSurnameTextField, IDLabel, IDTextField, departmentLabel, emailLabel, emailTextField, addMemberButton, clearButton}));
 		getContentPane().setLayout(groupLayout);
 
+	}
+	
+	class AddMemberActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String studentName = studentNameTextField.getText();
+			String studentSurname = studentSurnameTextField.getText();
+			String iD = IDTextField.getText();
+			String department = departmentComboBox.getSelectedItem().toString();
+			String email = emailTextField.getText();
+			
+			Member member = new Member();
+			
+			member.setStudentName(studentName);
+			member.setStudentSurname(studentSurname);
+			member.setiD(iD);
+			member.setDepartment(department);
+			member.setEmail(email);
+			
+			Configuration configuration = new Configuration();
+			
+		    configuration.configure();
+		    
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
+			Session session = sessionFactory.openSession();
+			
+			session.beginTransaction();
+			session.saveOrUpdate(member);
+			session.getTransaction().commit();
+			session.close();
+			
+		}
+		
+	}
+	
+	class ClearMemberActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			studentNameTextField.setText(null);
+		    studentSurnameTextField.setText(null);
+		    IDTextField.setText(null);
+		    emailTextField.setText(null);
+		    
+		}
+		
 	}
 }

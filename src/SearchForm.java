@@ -36,6 +36,9 @@ public class SearchForm extends JInternalFrame {
 	private JTextField bookKeyWordTextField;
 	private JTextField memberKeyWordTextField;
 	private JComboBox memberSearchComboBox, bookSearchComboBox;
+	private JButton clearButton;
+	private JButton searchBookButton;
+	private JButton searchMemberButton;
 
 	/**
 	 * Create the frame.
@@ -68,88 +71,48 @@ public class SearchForm extends JInternalFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-		JButton cancelButton = new JButton(
-				"\u0391\u03BA\u03CD\u03C1\u03C9\u03C3\u03B7");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-			}
-		});
+		clearButton = new JButton("\u039A\u03B1\u03B8\u03B1\u03C1\u03B9\u03C3\u03BC\u03CC\u03C2");
+		clearButton.addActionListener(new ClearActionListener());
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(
 				Alignment.TRAILING).addGroup(
 						gl_panel.createSequentialGroup()
 						.addGap(529)
-						.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE,
+						.addComponent(clearButton, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addGap(26)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(
 				Alignment.TRAILING).addGroup(
 						gl_panel.createSequentialGroup()
 						.addContainerGap(GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addComponent(cancelButton)
+								Short.MAX_VALUE).addComponent(clearButton)
 								.addContainerGap()));
 		panel.setLayout(gl_panel);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout
-		.setHorizontalGroup(groupLayout
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								groupLayout
-								.createParallelGroup(
-										Alignment.TRAILING)
-										.addComponent(
-												panel,
-												Alignment.LEADING,
-												0, 0,
-												Short.MAX_VALUE)
-												.addGroup(
-														groupLayout
-														.createSequentialGroup()
-														.addComponent(
-																searchBookPanel,
-																GroupLayout.DEFAULT_SIZE,
-																318,
-																Short.MAX_VALUE)
-																.addPreferredGap(
-																		ComponentPlacement.RELATED)
-																		.addComponent(
-																				searchMemberPanel,
-																				GroupLayout.DEFAULT_SIZE,
-																				319,
-																				Short.MAX_VALUE)))
-																				.addGap(12)));
-		groupLayout
-		.setVerticalGroup(groupLayout
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								groupLayout
-								.createParallelGroup(
-										Alignment.BASELINE)
-										.addComponent(
-												searchBookPanel,
-												GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-												.addComponent(
-														searchMemberPanel,
-														GroupLayout.PREFERRED_SIZE,
-														132,
-														GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(
-																ComponentPlacement.RELATED)
-																.addComponent(panel,
-																		GroupLayout.PREFERRED_SIZE, 49,
-																		GroupLayout.PREFERRED_SIZE)
-																		.addContainerGap(20, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)))
+					.addGap(12))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(searchMemberPanel, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+					.addGap(13))
+		);
 
 		JLabel memberSearchByLabel = new JLabel(
 				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u03BC\u03B5:");
@@ -171,7 +134,7 @@ public class SearchForm extends JInternalFrame {
 		memberKeyWordTextField = new JTextField();
 		memberKeyWordTextField.setColumns(10);
 
-		JButton searchMemberButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		searchMemberButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		searchMemberButton.addActionListener(new SearchMemberActionListener());
 
 
@@ -292,7 +255,7 @@ public class SearchForm extends JInternalFrame {
 		bookKeyWordTextField = new JTextField();
 		bookKeyWordTextField.setColumns(10);
 
-		JButton searchBookButton = new JButton(
+		searchBookButton = new JButton(
 				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		searchBookButton.addActionListener(new SearchBookActionListener());
 
@@ -429,7 +392,7 @@ public class SearchForm extends JInternalFrame {
 
             JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.add(new JScrollPane(table));
+            frame.getContentPane().add(new JScrollPane(table));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -478,7 +441,7 @@ public class SearchForm extends JInternalFrame {
 
             JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.add(new JScrollPane(table));
+            frame.getContentPane().add(new JScrollPane(table));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -488,6 +451,17 @@ public class SearchForm extends JInternalFrame {
 			System.out.println();
 
 		}
+	}
+	
+	class ClearActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			bookKeyWordTextField.setText(null);
+			memberKeyWordTextField.setText(null);
+			
+		}
+		
 	}
 }
 

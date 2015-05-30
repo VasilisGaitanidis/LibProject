@@ -1,19 +1,21 @@
-import java.awt.EventQueue;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JInternalFrame;
-import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import model.classes.dto.Book;
-import model.classes.dto.Member;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import org.hibernate.Session;
@@ -21,18 +23,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.MatteBorder;
-
-import java.awt.Color;
 
 public class AddBookForm extends JInternalFrame {
 	private JTextField bookNameTextField;
@@ -48,11 +38,11 @@ public class AddBookForm extends JInternalFrame {
 	private JButton addBookButton;
 	private JTextField ISBNTextField;
 	private JLabel bookSubjectLabel;
-	private JButton cancelButton;
+	private JButton clearButton;
 	private JComboBox bookLanguageComboBox;
 
 	/**
-	 * Dhmiourgia tou Frame.
+	 * Create the Frame.
 	 */
 	public AddBookForm() {
 		setResizable(true);
@@ -61,7 +51,7 @@ public class AddBookForm extends JInternalFrame {
 		setTitle("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 400, 400);
+		setBounds(0, 0, 400, 300);
 
 		JPanel panelData = new JPanel();
 		panelData
@@ -69,47 +59,21 @@ public class AddBookForm extends JInternalFrame {
 						null,
 						"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 						TitledBorder.LEADING, TitledBorder.TOP, null, null));
-
-		JPanel addBookNotesPanel = new JPanel();
-		addBookNotesPanel.setBorder(new TitledBorder(null,
-				"\u03A3\u03B7\u03BC\u03B5\u03B9\u03CE\u03C3\u03B5\u03B9\u03C2",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																addBookNotesPanel,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																378,
-																Short.MAX_VALUE)
-														.addComponent(
-																panelData,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																378,
-																Short.MAX_VALUE))
-										.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 236,
-								Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(addBookNotesPanel,
-								GroupLayout.PREFERRED_SIZE, 85,
-								GroupLayout.PREFERRED_SIZE).addContainerGap()));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		JLabel bookNamelLabel = new JLabel(
 				"\u038C\u03BD\u03BF\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
@@ -117,41 +81,8 @@ public class AddBookForm extends JInternalFrame {
 		bookNameTextField = new JTextField();
 		bookNameTextField.setColumns(10);
 
-		addBookButton = new JButton(
-				"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
-		addBookButton.addActionListener(new ActionListener() { //Button prosthikhs
-			public void actionPerformed(ActionEvent arg0) {
-				Book book = new Book();
-				String bookName = bookNameTextField.getText();
-				String bookAuthor = bookAuthorTextField.getText();
-				String bookSubject = bookSubjectTextField.getText();
-				int bookPages = Integer.parseInt(bookPagesTextField.getText());
-				String bookPublisher = bookPublisherTextField.getText();
-				int bookEdition = Integer.parseInt(bookEditionTextField.getText());
-				String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
-				int iSBN = Integer.parseInt(ISBNTextField.getText());
-				
-				book.setBookName(bookName);
-				book.setBookAuthor(bookAuthor);
-				book.setBookSubject(bookSubject);
-				book.setBookPages(bookPages);
-				book.setBookPublisher(bookPublisher);
-				book.setBookEdition(bookEdition);
-				book.setBookLanguage(bookLanguage);
-				book.setiSBN(iSBN);//ISBN na pairnei parapanw noumera 
-				
-				Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
-			    configuration.configure();
-			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-			            configuration.getProperties()).build();
-			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-				Session session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.saveOrUpdate(book);
-				session.getTransaction().commit();
-				session.close();				
-			}
-		});
+		addBookButton = new JButton("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7");
+		addBookButton.addActionListener(new AddBookActionListener());
 
 		JLabel ISBNLabel = new JLabel("ISBN:");
 		panelData.setLayout(new GridLayout(0, 2, 0, 0));
@@ -168,7 +99,7 @@ public class AddBookForm extends JInternalFrame {
 						bookPagesTextField, bookPublisherLabel,
 						bookPublisherTextField, bookEditionLabel,
 						bookEditionTextField, bookLanguageLabel,
-						bookLanguageComboBox, addBookButton, cancelButton }));
+						bookLanguageComboBox, addBookButton, clearButton }));
 
 		bookAuthorTextField = new JTextField();
 		bookAuthorTextField.setColumns(10);
@@ -222,33 +153,67 @@ public class AddBookForm extends JInternalFrame {
 		panelData.add(ISBNTextField);
 		panelData.add(addBookButton);
 
-		cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-			}
-		});
-		panelData.add(cancelButton);
-
-		JTextPane addbookNotesTextPane = new JTextPane();
-		GroupLayout gl_addBookNotesPanel = new GroupLayout(addBookNotesPanel);
-		gl_addBookNotesPanel.setHorizontalGroup(gl_addBookNotesPanel
-				.createParallelGroup(Alignment.LEADING).addGroup(
-						gl_addBookNotesPanel
-								.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(addbookNotesTextPane,
-										GroupLayout.DEFAULT_SIZE, 320,
-										Short.MAX_VALUE).addContainerGap()));
-		gl_addBookNotesPanel.setVerticalGroup(gl_addBookNotesPanel
-				.createParallelGroup(Alignment.LEADING).addGroup(
-						gl_addBookNotesPanel
-								.createSequentialGroup()
-								.addComponent(addbookNotesTextPane,
-										GroupLayout.DEFAULT_SIZE, 48,
-										Short.MAX_VALUE).addContainerGap()));
-		addBookNotesPanel.setLayout(gl_addBookNotesPanel);
+		clearButton = new JButton("\u039A\u03B1\u03B8\u03B1\u03C1\u03B9\u03C3\u03BC\u03CC\u03C2");
+		clearButton.addActionListener(new ClearBookActionListener());
+		
+		panelData.add(clearButton);
 		getContentPane().setLayout(groupLayout);
 
+	}
+	
+	class AddBookActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Book book = new Book();
+			String bookName = bookNameTextField.getText();
+			String bookAuthor = bookAuthorTextField.getText();
+			String bookSubject = bookSubjectTextField.getText();
+			int bookPages = Integer.parseInt(bookPagesTextField.getText());
+			String bookPublisher = bookPublisherTextField.getText();
+			int bookEdition = Integer.parseInt(bookEditionTextField.getText());
+			String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
+			int iSBN = Integer.parseInt(ISBNTextField.getText());
+			
+			book.setBookName(bookName);
+			book.setBookAuthor(bookAuthor);
+			book.setBookSubject(bookSubject);
+			book.setBookPages(bookPages);
+			book.setBookPublisher(bookPublisher);
+			book.setBookEdition(bookEdition);
+			book.setBookLanguage(bookLanguage);
+			book.setiSBN(iSBN);
+			
+			Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+		    configuration.configure();
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
+			Session session = sessionFactory.openSession();			
+			session.beginTransaction();
+			session.saveOrUpdate(book);
+			session.getTransaction().commit();
+			
+			session.close();
+		}
+		
+	}
+	
+	class ClearBookActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			bookNameTextField.setText(null);
+		    bookAuthorTextField.setText(null);
+		    bookSubjectTextField.setText(null);
+		    bookPagesTextField.setText(null);
+		    bookPublisherTextField.setText(null);
+		    bookEditionTextField.setText(null);
+		    ISBNTextField.setText(null);
+			
+		}
+		
 	}
 }

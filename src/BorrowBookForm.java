@@ -1,17 +1,27 @@
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-import javax.swing.JInternalFrame;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.TitledBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
 import model.classes.dto.Book;
 import model.classes.dto.Member;
@@ -24,26 +34,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.awt.Component;
-
-import javax.swing.UIManager;
-
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import javax.swing.SwingConstants;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class BorrowBookForm extends JInternalFrame {
 	private JTextField ISBNTextField;
 	private JTextField IDTextField;
@@ -52,6 +42,10 @@ public class BorrowBookForm extends JInternalFrame {
 	private JLabel returnDayLabel;
 	private JLabel borrowDayLabel;
 	private JButton borrowBookButton;
+	private JButton clearButton;
+	
+	private String borrowDay;
+	private String returnDay;
 
 	/**
 	 * Create the frame.
@@ -90,18 +84,14 @@ public class BorrowBookForm extends JInternalFrame {
 					.addContainerGap())
 		);
 
-		JLabel ISBNLabel = new JLabel(
-				"ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel ISBNLabel = new JLabel("ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 
 		ISBNTextField = new JTextField();
 		ISBNTextField.setColumns(10);
 
-		JButton cancelButton = new JButton("\u0386\u03BA\u03C5\u03C1\u03BF");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-			}
-		});
+		clearButton = new JButton("\u039A\u03B1\u03B8\u03B1\u03C1\u03B9\u03C3\u03BC\u03CC\u03C2");
+		clearButton.addActionListener(new ClearButtonActionListener());
+		
 		panelData.setLayout(new GridLayout(0, 2, 0, 0));
 		panelData.add(ISBNLabel);
 		panelData.add(ISBNTextField);
@@ -113,36 +103,33 @@ public class BorrowBookForm extends JInternalFrame {
 				new Component[] { ISBNLabel, ISBNTextField, IDLabel,
 						IDTextField, borrowDayLabel, borrowDayTextField,
 						returnDayLabel, returnDayTextField, borrowBookButton,
-						cancelButton }));
+						clearButton }));
 
 		IDTextField = new JTextField();
 		IDTextField.setColumns(10);
 		panelData.add(IDTextField);
 
-		borrowDayLabel = new JLabel(
-				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
+		borrowDayLabel = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03BF\u03CD:");
 		panelData.add(borrowDayLabel);
 
-		String borrowDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
+		borrowDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
 		borrowDayTextField = new JTextField(borrowDay);
 		borrowDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		borrowDayTextField.setBackground(Color.LIGHT_GRAY);
 		borrowDayTextField.setColumns(10);
 		panelData.add(borrowDayTextField);
 
-		returnDayLabel = new JLabel(
-				"\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
+		returnDayLabel = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		panelData.add(returnDayLabel);
-		
-		//String returnDay = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new java.util.Date());
 		
 		Calendar c = Calendar.getInstance();
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("dd-MM-yy");
-		c.setTime(dt); 
+		c.setTime(dt);
+		//number of max borrow days (7)
 		c.add(Calendar.DATE, 7);
 		dt = c.getTime();
-		String returnDay = df.format(dt);
+		returnDay = df.format(dt);
 		
 		returnDayTextField = new JTextField(returnDay);
 		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -150,61 +137,79 @@ public class BorrowBookForm extends JInternalFrame {
 		returnDayTextField.setColumns(10);
 		panelData.add(returnDayTextField);
 
-		borrowBookButton = new JButton(
-				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
-		borrowBookButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Configuration configuration = new Configuration();		//Connection me Database kai eggrafh stoixeiwn apo TExtFields
-			    configuration.configure();
-			    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-			            configuration.getProperties()).build();
-			    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-				Session session = sessionFactory.openSession();
-				
-				String iD = IDTextField.getText();
-				int iSBN = Integer.parseInt(ISBNTextField.getText());
-				
-				Member member = (Member)session.get(Member.class,iD);	//Pairnw to melos me ID(to id apo TextField)
-				Book book = (Book)session.get(Book.class,iSBN);			//Pairnw to vivlio me ISBN(to ISBN apo TextField)				
-				
-				Member memberOwner = book.getMember();	//null if nobody owns a book
-				
-				
-				if(memberOwner == null) {
-					MemberBook mb = new MemberBook();	//Neos Daneismos EDW NA MPEI ELEGXOS AN YPARXEI TO BOOK
-					mb.setBorrowDay(borrowDay);			//Gemizw ta kelia hmerwn daneismou kai epistroghs 
-					mb.setReturnDay(returnDay);			//ths ontothtas-pinaka MemberBook
-				    								
-					book.setMember(member);				//Ston pinaka tou Vivliou vazw aytomata to AM tou katoxou
-					mb.setMember(member);				//Ston pinaka Daneismou(MemberBook) vazw ksena kleidia ta
-					mb.setBook(book);					//AM foithth kai ISBN tou vivliou poy daneizetai
-					
-					session.beginTransaction();
-					session.saveOrUpdate(book);
-					session.saveOrUpdate(mb);
-					session.getTransaction().commit();
-					
-					String borrowID = Integer.toString(mb.getBorrowID());
-					JOptionPane.showMessageDialog(null,
-							"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
-							JOptionPane.INFORMATION_MESSAGE);
-					ISBNTextField.setText(null);
-				}
-				else {
-					String aMOwner = memberOwner.getiD();	//AM Katoxou vivliou
-					JOptionPane.showMessageDialog(null,
-							"Το βιβλίο με ISBN " + iSBN + " είναι ήδη δανεισμένο στον " + aMOwner, "Σφάλμα Δανεισμού!",
-							JOptionPane.ERROR_MESSAGE);
-					ISBNTextField.setText(null);
-				}
-				
-				session.close();
-				
-			}
-		});
+		borrowBookButton = new JButton("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
+		borrowBookButton.addActionListener(new BorrowBookActionListener());
+		
 		panelData.add(borrowBookButton);
-		panelData.add(cancelButton);
+		panelData.add(clearButton);
 		getContentPane().setLayout(groupLayout);
 
 	}
+	
+	class BorrowBookActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Configuration configuration = new Configuration();
+		    configuration.configure();
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
+			Session session = sessionFactory.openSession();
+			
+			String iD = IDTextField.getText();
+			int iSBN = Integer.parseInt(ISBNTextField.getText());
+			
+			Member selectedMember = (Member) session.get(Member.class,iD);
+			Book selectedBook = (Book) session.get(Book.class,iSBN);
+			
+			Member memberOwner = selectedBook.getMember();	//null if nobody owns a book
+			
+			
+			if(memberOwner == null) {
+				MemberBook mb = new MemberBook();
+				mb.setBorrowDay(borrowDay);
+				mb.setReturnDay(returnDay);
+			    								
+				selectedBook.setMember(selectedMember);
+				mb.setMember(selectedMember);
+				mb.setBook(selectedBook);
+				
+				session.beginTransaction();
+				session.saveOrUpdate(selectedBook);
+				session.saveOrUpdate(mb);
+				session.getTransaction().commit();
+				
+				String borrowID = Integer.toString(mb.getBorrowID());
+				JOptionPane.showMessageDialog(null,
+						"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
+						JOptionPane.INFORMATION_MESSAGE);
+				ISBNTextField.setText(null);
+			}
+			else {
+				String aMOwner = memberOwner.getiD();
+				JOptionPane.showMessageDialog(null,
+						"Το βιβλίο με ISBN " + iSBN + " είναι ήδη δανεισμένο στον " + aMOwner, "Σφάλμα Δανεισμού!",
+						JOptionPane.ERROR_MESSAGE);
+				ISBNTextField.setText(null);
+			}
+			
+			session.close();
+			
+		}		
+	}
+	
+	class ClearButtonActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			ISBNTextField.setText(null);
+		    IDTextField.setText(null);
+		    
+		}
+		
+	}
+	
 }
