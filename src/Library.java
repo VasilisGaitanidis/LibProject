@@ -16,6 +16,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +35,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Library extends JFrame {
@@ -292,10 +295,8 @@ public class Library extends JFrame {
 	class AddBookActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (addBookForm == null || addBookForm.isClosed()) { // only one
-																	// instance
-																	// to
-																	// addBookForm
+			if (addBookForm == null || addBookForm.isClosed()) {	 // only one instance to addBookForm
+				
 				addBookForm = new AddBookForm();
 				desktopPane.add(addBookForm);
 				addBookForm.show();
@@ -315,12 +316,27 @@ public class Library extends JFrame {
 			session.beginTransaction();
 			
 			Query query = session.createQuery("from Book order by nOBorrows desc");
-			List<Book> books = (List<Book>) query.list();
+			// number of values display
+			query.setMaxResults(10);
+			//Create ArrayList of selected query
+			ArrayList<Book> books = new ArrayList<Book>(query.list());
+			
 			session.getTransaction().commit();
 			session.close();
-			for (Book b : books)
+			
+			BookTableModel model = new BookTableModel(books);
+            JTable table = new JTable(model);
+
+            JFrame frame = new JFrame("10 Δημοφιλέστερα Βιβλία");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.add(new JScrollPane(table));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            
+			/*for (Book b : books)
 				System.out.printf(b.getnOBorrows()+"\t"+b.getiSBN()+"\t"+b.getBookName()+"\t"+b.getBookAuthor()+"\t"+b.getBookPublisher()+"\t"+b.getBookSubject()+"\t"+b.getBookLanguage()+"\t"+b.getBookEvaluation()+"\n");	   
-			System.out.println();
+			System.out.println();*/
 		}
 	}
 
@@ -340,23 +356,32 @@ public class Library extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			Configuration configuration = new Configuration();	//Connection me Database
 		    configuration.configure();
-		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-		            configuration.getProperties()).build();
+		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
 			
 			Query query = session.createQuery("from Member order by latePoints desc");
-			List<Member> members = (List<Member>) query.list();
+			// number of values display
+			query.setMaxResults(5);
+			ArrayList<Member> members = new ArrayList<Member>(query.list());
+			
 			session.getTransaction().commit();
 			session.close();
-			for (Member m : members)
-				   System.out.printf(m.getLatePoints()+"\t"+m.getiD()+"\t"+m.getStudentName()+"\t"+m.getStudentSurname()+"\t"+m.getEmail()+"\t"+m.getDepartment()+"\n");
-			System.out.println();
-		}
+			
+			MemberTableModel model = new MemberTableModel(members);
+            JTable table = new JTable(model);
 
+            JFrame frame = new JFrame("Οι 5 πιο ασυνεπείς χρήστες");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.add(new JScrollPane(table));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+		}
 	}
 
 	class BorrowBookActionListener implements ActionListener {
@@ -378,9 +403,7 @@ public class Library extends JFrame {
 				desktopPane.add(returnBookForm);
 				returnBookForm.show();
 			}
-
 		}
-
 	}
 
 	class SearchActionListener implements ActionListener {
@@ -391,12 +414,6 @@ public class Library extends JFrame {
 				searchForm = new SearchForm();
 				desktopPane.add(searchForm);
 				searchForm.show();
-
-				/*
-				 * JOptionPane.showMessageDialog(null,
-				 * "Εμφάνιση του frame αναζήτησης", "Αναζήτηση",
-				 * JOptionPane.INFORMATION_MESSAGE);
-				 */
 			}
 		}
 	}
