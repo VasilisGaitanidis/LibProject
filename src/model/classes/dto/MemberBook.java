@@ -9,25 +9,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+//Tells Hibernate that this Class will be an Entity
 @Entity
+//Table name at Database
 @Table (name = "Δανεισμοί")
-//Dimiourgia ID me generator.
+//ID generated automatically
 @SequenceGenerator(name="seq", initialValue=1, allocationSize=1)	
 public class MemberBook implements java.io.Serializable{	
 	
-	//Join Column from member
+	//Join Column from Member class
 	@ManyToOne
+	//Column name at Database
 	@JoinColumn(name="ΑΜ_Κατόχου")
 	private Member member;
-	//Join Column from book
+	//Join Column from Book class
 	@ManyToOne
+	//Column name at Database
 	@JoinColumn(name="ISBN_Βιβλίου")
 	private Book book;
 	// Primary key for table 'Δανεισμοί' with generated values
 	@Id
-	//Dimiourgia ID me generator.
+	//ID Generator
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+	@Column (name = "Κωδικός_Δανεισμού")
 	private int borrowID;
 	@Column (name = "Ημέρα_Δανεισμού")
 	private String borrowDay;

@@ -48,14 +48,13 @@ public class BorrowBookForm extends JInternalFrame {
 	private String returnDay;
 
 	/**
-	 * Create the frame.
+	 * Create the Borrow Book frame.Listeners at the end.
 	 * @throws ParseException 
 	 */
 	public BorrowBookForm() {
 		setResizable(true);
 		setFrameIcon(new ImageIcon(
-				BorrowBookForm.class
-						.getResource("/images/inbox_upload_16x16.png")));
+				BorrowBookForm.class.getResource("/images/inbox_upload_16x16.png")));
 		setTitle("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
@@ -63,8 +62,7 @@ public class BorrowBookForm extends JInternalFrame {
 
 		JPanel panelData = new JPanel();
 		panelData
-				.setBorder(new TitledBorder(
-						UIManager.getBorder("TitledBorder.border"),
+				.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
 						"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
@@ -96,8 +94,7 @@ public class BorrowBookForm extends JInternalFrame {
 		panelData.add(ISBNLabel);
 		panelData.add(ISBNTextField);
 
-		JLabel IDLabel = new JLabel(
-				"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
+		JLabel IDLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
 		panelData.add(IDLabel);
 		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(
 				new Component[] { ISBNLabel, ISBNTextField, IDLabel,
@@ -121,7 +118,7 @@ public class BorrowBookForm extends JInternalFrame {
 
 		returnDayLabel = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE\u03C2:");
 		panelData.add(returnDayLabel);
-		
+		//System's date
 		Calendar c = Calendar.getInstance();
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("dd-MM-yy");
@@ -145,48 +142,54 @@ public class BorrowBookForm extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
-	
+	//Borrow Book Button Action Listener
 	class BorrowBookActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			//Connection with Database via Hibernate
 			Configuration configuration = new Configuration();
 		    configuration.configure();
 		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		    
+		    //New session
 			Session session = sessionFactory.openSession();
-			
+			//Gets the text from TextFields
 			String iD = IDTextField.getText();
 			int iSBN = Integer.parseInt(ISBNTextField.getText());
-			
+			//Gets the Member with the specified ID
 			Member selectedMember = (Member) session.get(Member.class,iD);
+			//Gets the Book with the specified ISBN
 			Book selectedBook = (Book) session.get(Book.class,iSBN);
+			//Gets the value of the book's borrower
+			Member memberOwner = selectedBook.getMember();
 			
-			Member memberOwner = selectedBook.getMember();	//null if nobody owns a book
-			
-			
+			//if the upper value is null then the book can be borrowed
 			if(memberOwner == null) {
+				//Creates new borrow
 				MemberBook mb = new MemberBook();
+				//Gets the system date and sets the return day to one week later
 				mb.setBorrowDay(borrowDay);
 				mb.setReturnDay(returnDay);
-			    								
+			    //Inserts the member's ID to the Book's row								
 				selectedBook.setMember(selectedMember);
+				//Inserts the ID to the new Borrow row
 				mb.setMember(selectedMember);
+				//Inserts the book ISBN to the new Borrow row
 				mb.setBook(selectedBook);
-				
+				//Saves the Book,and the borrow tables
 				session.beginTransaction();
 				session.saveOrUpdate(selectedBook);
 				session.saveOrUpdate(mb);
 				session.getTransaction().commit();
-				
+				//Announces the new Borrow ID
 				String borrowID = Integer.toString(mb.getBorrowID());
 				JOptionPane.showMessageDialog(null,
 						"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
 						JOptionPane.INFORMATION_MESSAGE);
 				ISBNTextField.setText(null);
 			}
+			//if the value is not null then someone else has the book.Informs who has it.
 			else {
 				String aMOwner = memberOwner.getiD();
 				JOptionPane.showMessageDialog(null,
@@ -194,12 +197,12 @@ public class BorrowBookForm extends JInternalFrame {
 						JOptionPane.ERROR_MESSAGE);
 				ISBNTextField.setText(null);
 			}
-			
+			//Closing session
 			session.close();
 			
 		}		
 	}
-	
+	//Button katharismou pediwn
 	class ClearButtonActionListener implements ActionListener {
 
 		@Override

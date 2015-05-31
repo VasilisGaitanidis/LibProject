@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 
 import model.classes.dto.Book;
 import model.classes.dto.Member;
+import model.classes.dto.MemberBook;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -39,9 +40,13 @@ public class SearchForm extends JInternalFrame {
 	private JButton clearButton;
 	private JButton searchBookButton;
 	private JButton searchMemberButton;
+	private JPanel panel_1;
+	private JLabel borrowSearchLabel;
+	private JTextField borrowSearchTextField;
+	private JButton borrowSearchButton;
 
 	/**
-	 * Create the frame.
+	 * Creates the Search Form frame.Action Listeners in the end!
 	 */
 	public SearchForm() {
 		setResizable(true);
@@ -50,7 +55,7 @@ public class SearchForm extends JInternalFrame {
 		setTitle("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 681, 240);
+		setBounds(0, 0, 681, 377);
 
 		JPanel searchBookPanel = new JPanel();
 		searchBookPanel
@@ -89,29 +94,76 @@ public class SearchForm extends JInternalFrame {
 								Short.MAX_VALUE).addComponent(clearButton)
 								.addContainerGap()));
 		panel.setLayout(gl_panel);
+		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CE\u03BD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		borrowSearchLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
+		borrowSearchLabel.setToolTipText("");
+		borrowSearchLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		borrowSearchTextField = new JTextField();
+		borrowSearchTextField.setColumns(10);
+		
+		borrowSearchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		borrowSearchButton.addActionListener(new BorrowSearchActionListener());
+			
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(borrowSearchLabel, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(borrowSearchTextField, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addGap(105)
+					.addComponent(borrowSearchButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.addGap(103))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(borrowSearchLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(borrowSearchTextField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(borrowSearchButton)
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
+		panel_1.setLayout(gl_panel_1);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)))
+					.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
 					.addGap(12))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(172)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(175, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 645, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(searchMemberPanel, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE))
+						.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+						.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addGap(13))
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(83))
 		);
 
 		JLabel memberSearchByLabel = new JLabel(
@@ -127,9 +179,7 @@ public class SearchForm extends JInternalFrame {
 		memberSearchComboBox = new JComboBox();
 		memberSearchComboBox
 		.setModel(new DefaultComboBoxModel(
-				new String[] {
-						"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5",
-				"\u03A4\u03BC\u03AE\u03BC\u03B1" }));
+				new String[] {"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5","\u03A4\u03BC\u03AE\u03BC\u03B1" }));
 
 		memberKeyWordTextField = new JTextField();
 		memberKeyWordTextField.setColumns(10);
@@ -238,155 +288,116 @@ public class SearchForm extends JInternalFrame {
 		bookSearchByLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 
 		bookSearchComboBox = new JComboBox();
-		bookSearchComboBox
-		.setModel(new DefaultComboBoxModel(
-				new String[] {
-						"\u038C\u03BD\u03BF\u03BC\u03B1",
-						"\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1",
-						"\u0398\u03AD\u03BC\u03B1",
-						"\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC \u039F\u03AF\u03BA\u03BF",
-				"ISBN" }));
+		bookSearchComboBox.setModel(new DefaultComboBoxModel(
+				new String[] {"\u038C\u03BD\u03BF\u03BC\u03B1","\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1","\u0398\u03AD\u03BC\u03B1",
+						"\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC \u039F\u03AF\u03BA\u03BF","ISBN" }));
 
-		JLabel bookKeyWordLabel = new JLabel(
-				"\u039B\u03AD\u03BE\u03B7 \u039A\u03BB\u03B5\u03B9\u03B4\u03AF:");
+		JLabel bookKeyWordLabel = new JLabel("\u039B\u03AD\u03BE\u03B7 \u039A\u03BB\u03B5\u03B9\u03B4\u03AF:");
 		bookKeyWordLabel.setToolTipText("");
 		bookKeyWordLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 
 		bookKeyWordTextField = new JTextField();
 		bookKeyWordTextField.setColumns(10);
 
-		searchBookButton = new JButton(
-				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		searchBookButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		searchBookButton.addActionListener(new SearchBookActionListener());
 
 		GroupLayout gl_searchBookPanel = new GroupLayout(searchBookPanel);
-		gl_searchBookPanel
-		.setHorizontalGroup(gl_searchBookPanel
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						gl_searchBookPanel
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								gl_searchBookPanel
-								.createParallelGroup(
-										Alignment.TRAILING)
-										.addGroup(
-												gl_searchBookPanel
-												.createSequentialGroup()
-												.addComponent(
-														bookSearchByLabel,
-														GroupLayout.DEFAULT_SIZE,
-														138,
-														Short.MAX_VALUE)
-														.addGap(10)
-														.addComponent(
-																bookSearchComboBox,
-																0,
-																135,
-																Short.MAX_VALUE))
-																.addGroup(
-																		gl_searchBookPanel
-																		.createSequentialGroup()
-																		.addComponent(
-																				bookKeyWordLabel,
-																				GroupLayout.DEFAULT_SIZE,
-																				138,
-																				Short.MAX_VALUE)
-																				.addGap(10)
-																				.addComponent(
-																						bookKeyWordTextField,
-																						GroupLayout.DEFAULT_SIZE,
-																						135,
-																						Short.MAX_VALUE))
-																						.addComponent(
-																								searchBookButton,
-																								GroupLayout.PREFERRED_SIZE,
-																								98,
-																								GroupLayout.PREFERRED_SIZE))
-																								.addContainerGap()));
-		gl_searchBookPanel
-		.setVerticalGroup(gl_searchBookPanel
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						gl_searchBookPanel
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								gl_searchBookPanel
-								.createParallelGroup(
-										Alignment.BASELINE)
-										.addComponent(
-												bookSearchByLabel,
-												GroupLayout.PREFERRED_SIZE,
-												26,
-												GroupLayout.PREFERRED_SIZE)
-												.addComponent(
-														bookSearchComboBox,
-														GroupLayout.PREFERRED_SIZE,
-														25,
-														GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(
-																ComponentPlacement.RELATED)
-																.addGroup(
-																		gl_searchBookPanel
-																		.createParallelGroup(
-																				Alignment.BASELINE)
-																				.addComponent(
-																						bookKeyWordLabel,
-																						GroupLayout.PREFERRED_SIZE,
-																						26,
-																						GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								bookKeyWordTextField,
-																								GroupLayout.PREFERRED_SIZE,
-																								24,
-																								GroupLayout.PREFERRED_SIZE))
-																								.addPreferredGap(
-																										ComponentPlacement.RELATED)
-																										.addComponent(searchBookButton)
-																										.addContainerGap(
-																												GroupLayout.DEFAULT_SIZE,
-																												Short.MAX_VALUE)));
+		gl_searchBookPanel.setHorizontalGroup(
+			gl_searchBookPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchBookPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_searchBookPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_searchBookPanel.createSequentialGroup()
+							.addComponent(bookSearchByLabel, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+							.addGap(10)
+							.addComponent(bookSearchComboBox, 0, 137, Short.MAX_VALUE))
+						.addGroup(gl_searchBookPanel.createSequentialGroup()
+							.addComponent(bookKeyWordLabel, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+							.addGap(10)
+							.addComponent(bookKeyWordTextField, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+						.addGroup(gl_searchBookPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+							.addComponent(searchBookButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_searchBookPanel.setVerticalGroup(
+			gl_searchBookPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchBookPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_searchBookPanel.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(bookSearchByLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(bookSearchComboBox, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_searchBookPanel.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(bookKeyWordLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(bookKeyWordTextField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchBookButton)
+					.addGap(25))
+		);
 		searchBookPanel.setLayout(gl_searchBookPanel);
 		getContentPane().setLayout(groupLayout);
 
 	}
-
+	//Search Book Button Action Listener
 	class SearchBookActionListener implements ActionListener {
-
+		
 		public void actionPerformed(ActionEvent e) {
+			//Gets the text from TextField
 			String bookSearchSelection = bookKeyWordTextField.getText();
+			//Gets the selection of ComboBox and sets to String
 			String bookSeachKey = bookSearchComboBox.getSelectedItem().toString();
-
-			Configuration configuration = new Configuration();	//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			//Connection with Database via Hibernate
+			Configuration configuration = new Configuration();
 			configuration.configure();
-			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-					configuration.getProperties()).build();
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			//Creates new session and transaction with database
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
-
+			//Initialize as null
 			String columnName = "";
-
+			//Gets the ComboBox selection and sets the query value accordingly
 			if (bookSeachKey.equals("Όνομα"))
-				columnName = "Όνομα";
+				columnName = "bookName";
 			else if (bookSeachKey.equals("Συγγραφέα"))
-				columnName = "Συγγραφέα";
+				columnName = "bookAuthor";
 			else if (bookSeachKey.equals("Θέμα"))
-				columnName = "Θέμα";
+				columnName = "bookSubject";
 			else if (bookSeachKey.equals("Εκδοτικό Οίκο"))
-				columnName = "Εκδοτικό Οίκο";
-			else if (bookSeachKey.equals("ISBN"))
-				columnName = "ISBN";
-
+				columnName = "bookPublisher";
+			//ISBN is integer so we have to parse it differently
+			else if (bookSeachKey.equals("ISBN")){
+	            //Separate query for ISBN as integer
+				//Uses Hibernate Query Language (Book=class name, iSBN =variable name)
+				Query query = session.createQuery("from Book where iSBN =?");
+				//This is what goes into "?"
+				query.setInteger(0,Integer.parseInt(bookSearchSelection));
+				//Result list
+				ArrayList<Book> books = new ArrayList<Book>(query.list());
+				//Closing transaction and session
+				session.getTransaction().commit();
+				session.close();
+				//Projects the results via the BookTableModel method in separate frame
+				BookTableModel model = new BookTableModel(books);
+	            JTable table = new JTable(model);
+	            
+	            JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
+	            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	            frame.getContentPane().add(new JScrollPane(table));
+	            frame.pack();
+	            frame.setLocationRelativeTo(null);
+	            frame.setVisible(true);}
+			//Same as above
+			//Uses Hibernate Query Language (Book=class name,columnName =variable name according to search type from IF above)
 			Query query = session.createQuery("from Book where "+columnName+" =?");
 			query.setString(0, bookSearchSelection);
 			ArrayList<Book> books = new ArrayList<Book>(query.list());
-			
+			//Closing transaction and session
 			session.getTransaction().commit();
 			session.close();
-			
+			//Projects the results via the BookTableModel method in separate frame
 			BookTableModel model = new BookTableModel(books);
             JTable table = new JTable(model);
 
@@ -396,46 +407,49 @@ public class SearchForm extends JInternalFrame {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-			
+            
+           //Console outputs
 			/*System.out.println("ISBN"+" \t"+"Όνομα"+"  \t"+"Συγγραφέας"+" \t"+"Εκδοτικός Οίκος"+" \t"+"Θέμα"+"  \t"+"Γλώσσα"+" \t"+"Αξιολόγηση");
 			for (Book b : books)
 				System.out.printf(b.getiSBN()+"  \t"+b.getBookName()+"  \t"+b.getBookAuthor()+"  \t"+b.getBookPublisher()+"  \t"+b.getBookSubject()+"  \t"+b.getBookLanguage()+"  \t"+b.getBookEvaluation()+"\n");
 			System.out.println();*/
-
 		}
 	}
-
+	//Member Search Button Action Listener
 	class SearchMemberActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
+			//Gets the ComboBox selection
 			String memberSeachKey = memberSearchComboBox.getSelectedItem().toString();
+			//Gets the text from TextField
 			String memberSearchSelection = memberKeyWordTextField.getText();
-
-			Configuration configuration = new Configuration();	//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			//Connection with Database via Hibernate
+			Configuration configuration = new Configuration();
 			configuration.configure();
-			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-					configuration.getProperties()).build();
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
 
-
+			//Initialize as null
 			String columnName = "";
+			//Gets the ComboBox selection and sets the query value accordingly
 			if (memberSeachKey.equals("Αριθμό Μητρώου")) {
 				columnName = "iD";
 			}
 			else if (memberSeachKey.equals("Τμήμα")) {
 				columnName = "department";
 			}
-
+			//Uses Hibernate Query Language (Member=class name,columnName =variable name according to search type from IF above)
 			Query query = session.createQuery("from Member where "+columnName+" =?");
+			//This is what goes into "?"
 			query.setString(0,memberSearchSelection);
+			//Result List
 			ArrayList<Member> members = new ArrayList<Member>(query.list());
-
+			//Closing transaction and session
 			session.getTransaction().commit();
 			session.close();
-			
+			//Projects the results via the MemberTableModel method in separate frame
 			MemberTableModel model = new MemberTableModel(members);
             JTable table = new JTable(model);
 
@@ -446,13 +460,14 @@ public class SearchForm extends JInternalFrame {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             
-			for (Member m : members)
+            //Console output
+			/*for (Member m : members)
 				System.out.printf(m.getiD()+"\t"+m.getStudentName()+"\t"+m.getStudentSurname()+"\t"+m.getEmail()+"\t"+m.getDepartment()+"\t"+m.getLatePoints()+"\t"+"\n");
-			System.out.println();
+			System.out.println();*/
 
 		}
 	}
-	
+	//Button Katharismou pediwn
 	class ClearActionListener implements ActionListener {
 
 		@Override
@@ -463,6 +478,37 @@ public class SearchForm extends JInternalFrame {
 		}
 		
 	}
+	//Books by Member Search Button Action Listener
+	class BorrowSearchActionListener implements ActionListener {
+	
+		public void actionPerformed(ActionEvent e) {
+			String borrowSearchID = borrowSearchTextField.getText();
+			//Connection with Database
+			Configuration configuration = new Configuration();
+			configuration.configure();
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			//Searching at the table "Δανεισμοί" for all the books that have been borrowed by the member
+			Query query = session.createQuery("from MemberBook as mb where mb.member.iD = ?");
+			//This is what goes into "?"
+			query.setString(0, borrowSearchID);
+			//Result list
+			ArrayList<MemberBook> mbooks = new ArrayList<MemberBook>(query.list());
+			//Closing transaction and session
+			session.getTransaction().commit();
+			session.close();
+			//Uses the MemberBookTableModel method to project the results in separate frame
+			MemberBookTableModel model = new MemberBookTableModel(mbooks);
+            JTable table = new JTable(model);
+
+            JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.getContentPane().add(new JScrollPane(table));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+		}
+	}
 }
-
-
