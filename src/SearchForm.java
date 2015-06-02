@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -36,7 +37,7 @@ import org.hibernate.service.ServiceRegistry;
 public class SearchForm extends JInternalFrame {
 	private JTextField bookKeyWordTextField;
 	private JTextField memberKeyWordTextField;
-	private JComboBox memberSearchComboBox, bookSearchComboBox;
+	private JComboBox memberSearchComboBox, bookSearchComboBox,borrowSearchByComboBox;
 	private JButton clearButton;
 	private JButton searchBookButton;
 	private JButton searchMemberButton;
@@ -50,25 +51,20 @@ public class SearchForm extends JInternalFrame {
 	 */
 	public SearchForm() {
 		setResizable(true);
-		setFrameIcon(new ImageIcon(
-				SearchForm.class.getResource("/images/search_16x16.png")));
+		setFrameIcon(new ImageIcon(SearchForm.class.getResource("/images/search_16x16.png")));
 		setTitle("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(0, 0, 681, 377);
+		setBounds(0, 0, 681, 434);
 
 		JPanel searchBookPanel = new JPanel();
 		searchBookPanel
-		.setBorder(new TitledBorder(
-				UIManager.getBorder("TitledBorder.border"),
-				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
+		.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
 
 		JPanel searchMemberPanel = new JPanel();
-		searchMemberPanel
-		.setBorder(new TitledBorder(
-				UIManager.getBorder("TitledBorder.border"),
+		searchMemberPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
 				"\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2",
 				TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
@@ -107,31 +103,48 @@ public class SearchForm extends JInternalFrame {
 		
 		borrowSearchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		borrowSearchButton.addActionListener(new BorrowSearchActionListener());
+		
+		JLabel borrowSearchByLabel = new JLabel("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7 \u03BC\u03B5:");
+		borrowSearchByLabel.setToolTipText("");
+		borrowSearchByLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		borrowSearchByComboBox = new JComboBox();
+		borrowSearchByComboBox.setModel(new DefaultComboBoxModel(new String[] {"ISBN", "\u0391\u03C1\u03B9\u03B8\u03BC\u03CC \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5"}));
 			
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(106)
+					.addComponent(borrowSearchButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.addGap(102))
+				.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(borrowSearchLabel, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-					.addGap(10)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(borrowSearchTextField, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-					.addGap(105)
-					.addComponent(borrowSearchButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-					.addGap(103))
+				.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(borrowSearchByLabel, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(borrowSearchByComboBox, 0, 137, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addGap(18)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(borrowSearchByLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(borrowSearchByComboBox, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(borrowSearchLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 						.addComponent(borrowSearchTextField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(borrowSearchButton)
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -143,14 +156,14 @@ public class SearchForm extends JInternalFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
 					.addGap(12))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 645, Short.MAX_VALUE)
+					.addContainerGap())
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(172)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(175, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 645, Short.MAX_VALUE)
-					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -160,10 +173,10 @@ public class SearchForm extends JInternalFrame {
 						.addComponent(searchBookPanel, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
 						.addComponent(searchMemberPanel, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(83))
+					.addContainerGap())
 		);
 
 		JLabel memberSearchByLabel = new JLabel(
@@ -189,97 +202,39 @@ public class SearchForm extends JInternalFrame {
 
 
 		GroupLayout gl_searchMemberPanel = new GroupLayout(searchMemberPanel);
-		gl_searchMemberPanel
-		.setHorizontalGroup(gl_searchMemberPanel
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						gl_searchMemberPanel
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								gl_searchMemberPanel
-								.createParallelGroup(
-										Alignment.LEADING)
-										.addGroup(
-												gl_searchMemberPanel
-												.createSequentialGroup()
-												.addComponent(
-														memberSearchByLabel,
-														GroupLayout.DEFAULT_SIZE,
-														138,
-														Short.MAX_VALUE)
-														.addPreferredGap(
-																ComponentPlacement.UNRELATED)
-																.addComponent(
-																		memberSearchComboBox,
-																		0,
-																		135,
-																		Short.MAX_VALUE))
-																		.addGroup(
-																				gl_searchMemberPanel
-																				.createSequentialGroup()
-																				.addComponent(
-																						memberKeyWordLabel,
-																						GroupLayout.DEFAULT_SIZE,
-																						138,
-																						Short.MAX_VALUE)
-																						.addPreferredGap(
-																								ComponentPlacement.UNRELATED)
-																								.addComponent(
-																										memberKeyWordTextField,
-																										GroupLayout.DEFAULT_SIZE,
-																										135,
-																										Short.MAX_VALUE))
-																										.addComponent(
-																												searchMemberButton,
-																												Alignment.TRAILING,
-																												GroupLayout.PREFERRED_SIZE,
-																												98,
-																												GroupLayout.PREFERRED_SIZE))
-																												.addContainerGap()));
-		gl_searchMemberPanel
-		.setVerticalGroup(gl_searchMemberPanel
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						gl_searchMemberPanel
-						.createSequentialGroup()
-						.addGap(13)
-						.addGroup(
-								gl_searchMemberPanel
-								.createParallelGroup(
-										Alignment.BASELINE)
-										.addComponent(
-												memberSearchByLabel,
-												GroupLayout.PREFERRED_SIZE,
-												26,
-												GroupLayout.PREFERRED_SIZE)
-												.addComponent(
-														memberSearchComboBox,
-														GroupLayout.PREFERRED_SIZE,
-														25,
-														GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(
-																ComponentPlacement.RELATED)
-																.addGroup(
-																		gl_searchMemberPanel
-																		.createParallelGroup(
-																				Alignment.BASELINE)
-																				.addComponent(
-																						memberKeyWordLabel,
-																						GroupLayout.PREFERRED_SIZE,
-																						26,
-																						GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								memberKeyWordTextField,
-																								GroupLayout.PREFERRED_SIZE,
-																								24,
-																								GroupLayout.PREFERRED_SIZE))
-																								.addPreferredGap(
-																										ComponentPlacement.RELATED)
-																										.addComponent(searchMemberButton)
-																										.addContainerGap(
-																												GroupLayout.DEFAULT_SIZE,
-																												Short.MAX_VALUE)));
+		gl_searchMemberPanel.setHorizontalGroup(
+			gl_searchMemberPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchMemberPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_searchMemberPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_searchMemberPanel.createSequentialGroup()
+							.addComponent(memberSearchByLabel, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(memberSearchComboBox, 0, 137, Short.MAX_VALUE))
+						.addGroup(gl_searchMemberPanel.createSequentialGroup()
+							.addComponent(memberKeyWordLabel, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(memberKeyWordTextField, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_searchMemberPanel.createSequentialGroup()
+							.addGap(189)
+							.addComponent(searchMemberButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_searchMemberPanel.setVerticalGroup(
+			gl_searchMemberPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchMemberPanel.createSequentialGroup()
+					.addGap(13)
+					.addGroup(gl_searchMemberPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(memberSearchByLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(memberSearchComboBox, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_searchMemberPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(memberKeyWordLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(memberKeyWordTextField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchMemberButton)
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
 		searchMemberPanel.setLayout(gl_searchMemberPanel);
 
 		JLabel bookSearchByLabel = new JLabel(
@@ -317,8 +272,8 @@ public class SearchForm extends JInternalFrame {
 							.addGap(10)
 							.addComponent(bookKeyWordTextField, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
 						.addGroup(gl_searchBookPanel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
-							.addComponent(searchBookButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)))
+							.addGap(188)
+							.addComponent(searchBookButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_searchBookPanel.setVerticalGroup(
@@ -400,7 +355,7 @@ public class SearchForm extends JInternalFrame {
 			//Projects the results via the BookTableModel method in separate frame
 			BookTableModel model = new BookTableModel(books);
             JTable table = new JTable(model);
-
+          //Projecting the result list using table
             JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(new JScrollPane(table));
@@ -452,7 +407,7 @@ public class SearchForm extends JInternalFrame {
 			//Projects the results via the MemberTableModel method in separate frame
 			MemberTableModel model = new MemberTableModel(members);
             JTable table = new JTable(model);
-
+          //Projecting the result list using table
             JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(new JScrollPane(table));
@@ -474,14 +429,15 @@ public class SearchForm extends JInternalFrame {
 		public void actionPerformed(ActionEvent e) {
 			bookKeyWordTextField.setText(null);
 			memberKeyWordTextField.setText(null);
-			
+			borrowSearchTextField.setText(null);
 		}
-		
 	}
-	//Books by Member Search Button Action Listener
+	//Borrows Search by ISBN or ID Button Action Listener
 	class BorrowSearchActionListener implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
+			//Gets the ComboBox selection
+			String borrowBySeachKey = borrowSearchByComboBox.getSelectedItem().toString();
 			String borrowSearchID = borrowSearchTextField.getText();
 			//Connection with Database
 			Configuration configuration = new Configuration();
@@ -490,6 +446,9 @@ public class SearchForm extends JInternalFrame {
 			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
+			
+			if (borrowBySeachKey.equals("Αριθμό Μητρώου")){
+				
 			//Searching at the table "Δανεισμοί" for all the books that have been borrowed by the member
 			Query query = session.createQuery("from MemberBook as mb where mb.member.iD = ?");
 			//This is what goes into "?"
@@ -499,16 +458,61 @@ public class SearchForm extends JInternalFrame {
 			//Closing transaction and session
 			session.getTransaction().commit();
 			session.close();
+			//Checking if member has ever borrowed any books
+			if (mbooks.isEmpty()){
+				JOptionPane.showMessageDialog(null,
+						"Ο χρήστης δεν έχει δανειστεί κανένα Βιβλίο", "Κανένας Δανεισμός",
+						JOptionPane.INFORMATION_MESSAGE);
+				borrowSearchTextField.setText(null);
+			}
+			//Member has a borrow history cause the list ain't empty
+			else{
+		
 			//Uses the MemberBookTableModel method to project the results in separate frame
 			MemberBookTableModel model = new MemberBookTableModel(mbooks);
             JTable table = new JTable(model);
-
+            //Projecting the result list using table
             JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(new JScrollPane(table));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+          }
+		}	
+			//We are writing the same code here cause we have to parse book ISBN as integer for safety reasons
+			else if(borrowBySeachKey.equals("ISBN")){
+				
+				//Searching at the table "Δανεισμοί" for all the member that have borrowed this Book
+				Query query = session.createQuery("from MemberBook as mb where mb.book.iSBN = ?");
+				//This is what goes into "?"
+				query.setInteger(0,Integer.parseInt(borrowSearchID));
+				//Result list
+				ArrayList<MemberBook> mbooks = new ArrayList<MemberBook>(query.list());
+				//Closing transaction and session
+				session.getTransaction().commit();
+				session.close();
+				//Checking if the book has ever been borrowed to anyone
+				if (mbooks.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Το Βιβλίο δεν έχει δανειστεί ποτέ", "Κανένας Δανεισμός",
+							JOptionPane.INFORMATION_MESSAGE);
+					borrowSearchTextField.setText(null);}
+				//The book has a history of borrows
+				else{
+					
+				//Uses the MemberBookTableModel method to project the results in separate frame
+				MemberBookTableModel model = new MemberBookTableModel(mbooks);
+	            JTable table = new JTable(model);
+	            //Projecting the result list using table
+	            JFrame frame = new JFrame("Αποτέλεσμα Αναζήτησης");
+	            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	            frame.getContentPane().add(new JScrollPane(table));
+	            frame.pack();
+	            frame.setLocationRelativeTo(null);
+	            frame.setVisible(true);	
+				}
+			}
 		}
 	}
 }

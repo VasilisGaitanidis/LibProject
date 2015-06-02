@@ -42,12 +42,11 @@ public class AddBookForm extends JInternalFrame {
 	private JComboBox bookLanguageComboBox;
 
 	/**
-	 * Create the Frame.
+	 * Creates the Add Book Form Frame.Action Listeners at the end!
 	 */
 	public AddBookForm() {
 		setResizable(true);
-		setFrameIcon(new ImageIcon(
-				AddBookForm.class.getResource("/images/add_book_16x16.png")));
+		setFrameIcon(new ImageIcon(AddBookForm.class.getResource("/images/add_book_16x16.png")));
 		setTitle("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
@@ -55,9 +54,7 @@ public class AddBookForm extends JInternalFrame {
 
 		JPanel panelData = new JPanel();
 		panelData
-				.setBorder(new TitledBorder(
-						null,
-						"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
+				.setBorder(new TitledBorder(null,"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 						TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -75,8 +72,7 @@ public class AddBookForm extends JInternalFrame {
 					.addContainerGap())
 		);
 
-		JLabel bookNamelLabel = new JLabel(
-				"\u038C\u03BD\u03BF\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel bookNamelLabel = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 
 		bookNameTextField = new JTextField();
 		bookNameTextField.setColumns(10);
@@ -89,8 +85,7 @@ public class AddBookForm extends JInternalFrame {
 		panelData.add(bookNamelLabel);
 		panelData.add(bookNameTextField);
 
-		JLabel bookAuthorLabel = new JLabel(
-				"\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		JLabel bookAuthorLabel = new JLabel("\u03A3\u03C5\u03B3\u03B3\u03C1\u03B1\u03C6\u03AD\u03B1\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		panelData.add(bookAuthorLabel);
 		panelData.setFocusTraversalPolicy(new FocusTraversalOnArray(
 				new Component[] { bookNamelLabel, bookNameTextField,
@@ -105,46 +100,39 @@ public class AddBookForm extends JInternalFrame {
 		bookAuthorTextField.setColumns(10);
 		panelData.add(bookAuthorTextField);
 
-		bookSubjectLabel = new JLabel(
-				"\u0398\u03AD\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookSubjectLabel = new JLabel("\u0398\u03AD\u03BC\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		panelData.add(bookSubjectLabel);
 
 		bookSubjectTextField = new JTextField();
 		bookSubjectTextField.setColumns(10);
 		panelData.add(bookSubjectTextField);
 
-		bookPagesLabel = new JLabel(
-				"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03A3\u03B5\u03BB\u03B9\u03B4\u03CE\u03BD:");
+		bookPagesLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u03A3\u03B5\u03BB\u03B9\u03B4\u03CE\u03BD:");
 		panelData.add(bookPagesLabel);
 
 		bookPagesTextField = new JTextField();
 		bookPagesTextField.setColumns(10);
 		panelData.add(bookPagesTextField);
 
-		bookPublisherLabel = new JLabel(
-				"\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC\u03C2 \u039F\u03AF\u03BA\u03BF\u03C2:");
+		bookPublisherLabel = new JLabel("\u0395\u03BA\u03B4\u03BF\u03C4\u03B9\u03BA\u03CC\u03C2 \u039F\u03AF\u03BA\u03BF\u03C2:");
 		panelData.add(bookPublisherLabel);
 
 		bookPublisherTextField = new JTextField();
 		bookPublisherTextField.setColumns(10);
 		panelData.add(bookPublisherTextField);
 
-		bookEditionLabel = new JLabel(
-				"\u0388\u03BA\u03B4\u03BF\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookEditionLabel = new JLabel("\u0388\u03BA\u03B4\u03BF\u03C3\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		panelData.add(bookEditionLabel);
 
 		bookEditionTextField = new JTextField();
 		bookEditionTextField.setColumns(10);
 		panelData.add(bookEditionTextField);
 
-		bookLanguageLabel = new JLabel(
-				"\u0393\u03BB\u03CE\u03C3\u03C3\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
+		bookLanguageLabel = new JLabel("\u0393\u03BB\u03CE\u03C3\u03C3\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 		panelData.add(bookLanguageLabel);
 
 		bookLanguageComboBox = new JComboBox();
-		bookLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC",
-				"\u0391\u03B3\u03B3\u03BB\u03B9\u03BA\u03AC" }));
+		bookLanguageComboBox.setModel(new DefaultComboBoxModel(new String[] {"\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC","\u0391\u03B3\u03B3\u03BB\u03B9\u03BA\u03AC" }));
 		panelData.add(bookLanguageComboBox);
 		panelData.add(ISBNLabel);
 
@@ -160,13 +148,14 @@ public class AddBookForm extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
-	
+	//Add Book Button Action Listener
 	class AddBookActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			//Creates new Book Object
 			Book book = new Book();
+			//Getting the user's input from TextFields
 			String bookName = bookNameTextField.getText();
 			String bookAuthor = bookAuthorTextField.getText();
 			String bookSubject = bookSubjectTextField.getText();
@@ -175,7 +164,7 @@ public class AddBookForm extends JInternalFrame {
 			int bookEdition = Integer.parseInt(bookEditionTextField.getText());
 			String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
 			int iSBN = Integer.parseInt(ISBNTextField.getText());
-			
+			//Setting them into the new book entity
 			book.setBookName(bookName);
 			book.setBookAuthor(bookAuthor);
 			book.setBookSubject(bookSubject);
@@ -184,22 +173,22 @@ public class AddBookForm extends JInternalFrame {
 			book.setBookEdition(bookEdition);
 			book.setBookLanguage(bookLanguage);
 			book.setiSBN(iSBN);
-			
-			Configuration configuration = new Configuration();//Connection me Database kai eggrafh stoixeiwn apo TExtFields
+			//Connection with Database
+			Configuration configuration = new Configuration();
 		    configuration.configure();
 		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		    
+		    //New session
 			Session session = sessionFactory.openSession();			
 			session.beginTransaction();
 			session.saveOrUpdate(book);
 			session.getTransaction().commit();
-			
+			//Closing Session
 			session.close();
 		}
 		
 	}
-	
+	//Clears all textfields
 	class ClearBookActionListener implements ActionListener {
 
 		@Override
@@ -212,8 +201,6 @@ public class AddBookForm extends JInternalFrame {
 		    bookPublisherTextField.setText(null);
 		    bookEditionTextField.setText(null);
 		    ISBNTextField.setText(null);
-			
 		}
-		
 	}
 }

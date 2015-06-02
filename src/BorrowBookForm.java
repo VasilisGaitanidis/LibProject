@@ -53,17 +53,14 @@ public class BorrowBookForm extends JInternalFrame {
 	 */
 	public BorrowBookForm() {
 		setResizable(true);
-		setFrameIcon(new ImageIcon(
-				BorrowBookForm.class.getResource("/images/inbox_upload_16x16.png")));
+		setFrameIcon(new ImageIcon(BorrowBookForm.class.getResource("/images/inbox_upload_16x16.png")));
 		setTitle("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(0, 0, 350, 240);
 
 		JPanel panelData = new JPanel();
-		panelData
-				.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-						"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
+		panelData.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -199,7 +196,6 @@ public class BorrowBookForm extends JInternalFrame {
 			}
 			//Closing session
 			session.close();
-			
 		}		
 	}
 	//Button katharismou pediwn
@@ -210,9 +206,6 @@ public class BorrowBookForm extends JInternalFrame {
 			
 			ISBNTextField.setText(null);
 		    IDTextField.setText(null);
-		    
 		}
-		
 	}
-	
 }

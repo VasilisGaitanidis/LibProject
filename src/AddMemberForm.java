@@ -40,35 +40,28 @@ public class AddMemberForm extends JInternalFrame {
 	private JComboBox departmentComboBox;
 
 	/**
-	 * Create the Frame.
+	 * Create the Add Member Form Frame.Action Listeners at the End!
 	 */
 	public AddMemberForm() {
 		setResizable(true);
-		setFrameIcon(new ImageIcon(
-				AddMemberForm.class.getResource("/images/user_add_16x16.png")));
+		setFrameIcon(new ImageIcon(AddMemberForm.class.getResource("/images/user_add_16x16.png")));
 		setTitle("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2");
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(0, 0, 380, 236);
 
 		JPanel panelData = new JPanel();
-		panelData
-				.setBorder(new TitledBorder(
-						UIManager.getBorder("TitledBorder.border"),
-						"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2",
+		panelData.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),"\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2",
 						TitledBorder.LEADING, TitledBorder.TOP, null,
 						new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
 					.addContainerGap())
@@ -82,16 +75,14 @@ public class AddMemberForm extends JInternalFrame {
 		panelData.add(studentNameLabel);
 		panelData.add(studentNameTextField);
 
-		JLabel studentSurnameLabel = new JLabel(
-				"\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF:");
+		JLabel studentSurnameLabel = new JLabel("\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF:");
 		panelData.add(studentSurnameLabel);
 
 		studentSurnameTextField = new JTextField();
 		studentSurnameTextField.setColumns(10);
 		panelData.add(studentSurnameTextField);
 
-		IDLabel = new JLabel(
-				"\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
+		IDLabel = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u039C\u03B7\u03C4\u03C1\u03CE\u03BF\u03C5:");
 		panelData.add(IDLabel);
 
 		IDTextField = new JTextField();
@@ -125,44 +116,40 @@ public class AddMemberForm extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
-	
+	//Add Member Button Action Listener
 	class AddMemberActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			//Gets the user input from TextFields
 			String studentName = studentNameTextField.getText();
 			String studentSurname = studentSurnameTextField.getText();
 			String iD = IDTextField.getText();
 			String department = departmentComboBox.getSelectedItem().toString();
 			String email = emailTextField.getText();
-			
+			//Creates new Member Object 
 			Member member = new Member();
-			
+			//Sets the values to the correct fields
 			member.setStudentName(studentName);
 			member.setStudentSurname(studentSurname);
 			member.setiD(iD);
 			member.setDepartment(department);
 			member.setEmail(email);
-			
+			//Setting up Connection with Database
 			Configuration configuration = new Configuration();
-			
-		    configuration.configure();
-		    
+			configuration.configure();
 		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		    
+		    //Creating new session
 			Session session = sessionFactory.openSession();
-			
+			//Begins transaction and saves or updates member
 			session.beginTransaction();
 			session.saveOrUpdate(member);
 			session.getTransaction().commit();
 			session.close();
-			
 		}
-		
 	}
-	
+	//Clears all textFields
 	class ClearMemberActionListener implements ActionListener {
 
 		@Override
@@ -172,8 +159,6 @@ public class AddMemberForm extends JInternalFrame {
 		    studentSurnameTextField.setText(null);
 		    IDTextField.setText(null);
 		    emailTextField.setText(null);
-		    
 		}
-		
 	}
 }
