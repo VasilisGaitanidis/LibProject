@@ -43,13 +43,13 @@ public class BorrowBookForm extends JInternalFrame {
 	private JLabel borrowDayLabel;
 	private JButton borrowBookButton;
 	private JButton clearButton;
-	
+
 	private String borrowDay;
 	private String returnDay;
 
 	/**
 	 * Create the Borrow Book frame.Listeners at the end.
-	 * @throws ParseException 
+	 * 
 	 */
 	public BorrowBookForm() {
 		setResizable(true);
@@ -61,23 +61,23 @@ public class BorrowBookForm extends JInternalFrame {
 
 		JPanel panelData = new JPanel();
 		panelData.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5",
-						TitledBorder.LEADING, TitledBorder.TOP, null,
-						new Color(0, 0, 0)));
+				TitledBorder.LEADING, TitledBorder.TOP, null,
+				new Color(0, 0, 0)));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+						.addContainerGap()
+						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+						.addContainerGap())
+				);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+						.addContainerGap()
+						.addComponent(panelData, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+						.addContainerGap())
+				);
 
 		JLabel ISBNLabel = new JLabel("ISBN \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5:");
 
@@ -86,7 +86,7 @@ public class BorrowBookForm extends JInternalFrame {
 
 		clearButton = new JButton("\u039A\u03B1\u03B8\u03B1\u03C1\u03B9\u03C3\u03BC\u03CC\u03C2");
 		clearButton.addActionListener(new ClearButtonActionListener());
-		
+
 		panelData.setLayout(new GridLayout(0, 2, 0, 0));
 		panelData.add(ISBNLabel);
 		panelData.add(ISBNTextField);
@@ -120,11 +120,12 @@ public class BorrowBookForm extends JInternalFrame {
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("dd-MM-yy");
 		c.setTime(dt);
-		//number of max borrow days (7)
+		
+		//number of max borrow days (7). if we want more/ less days we can change this value
 		c.add(Calendar.DATE, 7);
 		dt = c.getTime();
 		returnDay = df.format(dt);
-		
+
 		returnDayTextField = new JTextField(returnDay);
 		returnDayTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		returnDayTextField.setBackground(Color.LIGHT_GRAY);
@@ -133,79 +134,110 @@ public class BorrowBookForm extends JInternalFrame {
 
 		borrowBookButton = new JButton("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
 		borrowBookButton.addActionListener(new BorrowBookActionListener());
-		
+
 		panelData.add(borrowBookButton);
 		panelData.add(clearButton);
 		getContentPane().setLayout(groupLayout);
 
 	}
+
 	//Borrow Book Button Action Listener
 	class BorrowBookActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+
 			//Connection with Database via Hibernate
 			Configuration configuration = new Configuration();
-		    configuration.configure();
-		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		    //New session
+			configuration.configure();
+
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+			// New session
 			Session session = sessionFactory.openSession();
-			//Gets the text from TextFields
+
+			// Gets the text from TextFields
 			String iD = IDTextField.getText();
 			int iSBN = Integer.parseInt(ISBNTextField.getText());
-			//Gets the Member with the specified ID
+
+			// Gets the Member with the specified ID
 			Member selectedMember = (Member) session.get(Member.class,iD);
-			//Gets the Book with the specified ISBN
-			Book selectedBook = (Book) session.get(Book.class,iSBN);
-			//Gets the value of the book's borrower
-			Member memberOwner = selectedBook.getMember();
+			// Checks if the member exists and displays error message
+			if(selectedMember == null) {
+				JOptionPane.showMessageDialog(null,
+						"Το μέλος δεν υπάρχει", "Σφάλμα Μέλους!",
+						JOptionPane.ERROR_MESSAGE);
+				IDTextField.setText(null);
+			}			
 			
-			//if the upper value is null then the book can be borrowed
-			if(memberOwner == null) {
-				//Creates new borrow
-				MemberBook mb = new MemberBook();
-				//Gets the system date and sets the return day to one week later
-				mb.setBorrowDay(borrowDay);
-				mb.setReturnDay(returnDay);
-			    //Inserts the member's ID to the Book's row								
-				selectedBook.setMember(selectedMember);
-				//Inserts the ID to the new Borrow row
-				mb.setMember(selectedMember);
-				//Inserts the book ISBN to the new Borrow row
-				mb.setBook(selectedBook);
-				//Saves the Book,and the borrow tables
-				session.beginTransaction();
-				session.saveOrUpdate(selectedBook);
-				session.saveOrUpdate(mb);
-				session.getTransaction().commit();
-				//Announces the new Borrow ID
-				String borrowID = Integer.toString(mb.getBorrowID());
+			// Gets the Book with the specified ISBN
+			Book selectedBook = (Book) session.get(Book.class,iSBN);
+			
+			// Checks if the book exists and displays error message
+			if(selectedBook == null) {
 				JOptionPane.showMessageDialog(null,
-						"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
-						JOptionPane.INFORMATION_MESSAGE);
-				ISBNTextField.setText(null);
-			}
-			//if the value is not null then someone else has the book.Informs who has it.
-			else {
-				String aMOwner = memberOwner.getiD();
-				JOptionPane.showMessageDialog(null,
-						"Το βιβλίο με ISBN " + iSBN + " είναι ήδη δανεισμένο στον " + aMOwner, "Σφάλμα Δανεισμού!",
+						"Το βιβλίο δεν υπάρχει", "Σφάλμα Βιβλίου!",
 						JOptionPane.ERROR_MESSAGE);
 				ISBNTextField.setText(null);
 			}
-			//Closing session
+			else {
+				// Gets the value of the book's borrower
+				Member memberOwner = selectedBook.getMember();
+
+				// if the upper value is null then the book can be borrowed
+				if(memberOwner == null) {
+					
+					// Creates new borrow
+					MemberBook mb = new MemberBook();
+					
+					// Gets the system date and sets the return day to one week later
+					mb.setBorrowDay(borrowDay);
+					mb.setReturnDay(returnDay);
+					
+					// Inserts the member's ID to the Book's table row								
+					selectedBook.setMember(selectedMember);
+					
+					// Inserts the ID to the new Borrow table row
+					mb.setMember(selectedMember);
+					// Inserts the book ISBN to the new Borrow row
+					mb.setBook(selectedBook);
+					// Updates the book, and saves or updates the borrow tables
+					session.beginTransaction();
+					session.saveOrUpdate(selectedBook);
+					session.saveOrUpdate(mb);
+					session.getTransaction().commit();
+					
+					// Displays the new Borrow ID
+					String borrowID = Integer.toString(mb.getBorrowID());
+					JOptionPane.showMessageDialog(null,
+							"Ο κωδικός δανεισμού είναι " + borrowID , "Κωδικός Δανεισμού",
+							JOptionPane.INFORMATION_MESSAGE);
+					ISBNTextField.setText(null);
+				}
+				// if the value is not null then someone else has the book. Informs who is the current borrower.
+				else {
+					String aMOwner = memberOwner.getiD();
+					JOptionPane.showMessageDialog(null,
+							"Το βιβλίο με ISBN " + iSBN + " είναι ήδη δανεισμένο στον " + aMOwner, "Σφάλμα Δανεισμού!",
+							JOptionPane.ERROR_MESSAGE);
+					ISBNTextField.setText(null);
+				}
+				
+			}
+			
+			// Closing session
 			session.close();
 		}		
 	}
-	//Button katharismou pediwn
+	// Clears the text fields
 	class ClearButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			ISBNTextField.setText(null);
-		    IDTextField.setText(null);
+			IDTextField.setText(null);
 		}
 	}
 }

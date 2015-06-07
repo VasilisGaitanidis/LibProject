@@ -121,27 +121,34 @@ public class AddMemberForm extends JInternalFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			//Gets the user input from TextFields
 			String studentName = studentNameTextField.getText();
 			String studentSurname = studentSurnameTextField.getText();
 			String iD = IDTextField.getText();
 			String department = departmentComboBox.getSelectedItem().toString();
 			String email = emailTextField.getText();
+			
 			//Creates new Member Object 
 			Member member = new Member();
+			
 			//Sets the values to the correct fields
 			member.setStudentName(studentName);
 			member.setStudentSurname(studentSurname);
 			member.setiD(iD);
 			member.setDepartment(department);
 			member.setEmail(email);
+			
 			//Setting up Connection with Database
 			Configuration configuration = new Configuration();
 			configuration.configure();
+			
 		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
 		    //Creating new session
 			Session session = sessionFactory.openSession();
+			
 			//Begins transaction and saves or updates member
 			session.beginTransaction();
 			session.saveOrUpdate(member);

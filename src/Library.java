@@ -39,11 +39,11 @@ public class Library extends JFrame {
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenuItem exitJMenuItem, addBookJMenuItem, popularBookJMenuItem,
-			addMemberJMenuItem, bannedMemberJÌenuItem, borrowBookJMenuItem,
-			returnBookJMenuItem, searchJMenuItem;
+	addMemberJMenuItem, bannedMemberJÌenuItem, borrowBookJMenuItem,
+	returnBookJMenuItem, searchJMenuItem;
 	private JToolBar toolBar;
 	private JButton btnAddBook, btnPopularBook, btnAddMember, btnBannedMember,
-			btnBorrowBook, btnReturnBook, btnSearch;
+	btnBorrowBook, btnReturnBook, btnSearch;
 	private JDesktopPane desktopPane;
 	private AddBookForm addBookForm;
 	private AddMemberForm addMemberForm;
@@ -68,6 +68,7 @@ public class Library extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				Library.class.getResource("/images/Library_Folder_64x64.png")));
 		setTitle("\u03A3\u03CD\u03C3\u03C4\u03B7\u03BC\u03B1 \u0394\u03B9\u03B1\u03C7\u03B5\u03AF\u03C1\u03B9\u03C3\u03B7\u03C2 \u0392\u03B9\u03B2\u03BB\u03B9\u03BF\u03B8\u03AE\u03BA\u03B7\u03C2");
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 800);
 
@@ -103,16 +104,10 @@ public class Library extends JFrame {
 		popularBookJMenuItem.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_P, InputEvent.CTRL_MASK));
 		popularBookJMenuItem
-				.addActionListener(new PopularBooksActionListener());
+		.addActionListener(new PopularBooksActionListener());
 		popularBookJMenuItem.setIcon(new ImageIcon(Library.class
 				.getResource("/images/chart_arrow_16x16.png")));
 		booksJMenu.add(popularBookJMenuItem);
-
-		/*
-		 * JMenuItem listBookJMenuItem = new JMenuItem(
-		 * "\u039B\u03AF\u03C3\u03C4\u03B1 \u0392\u03B9\u03B2\u03BB\u03AF\u03C9\u03BD"
-		 * ); booksJMenu.add(listBookJMenuItem);
-		 */
 
 		JMenu membersJMenu = new JMenu("\u039C\u03AD\u03BB\u03B7");
 		menuBar.add(membersJMenu);
@@ -129,16 +124,10 @@ public class Library extends JFrame {
 		bannedMemberJÌenuItem = new JMenuItem(
 				"\u0391\u03C3\u03C5\u03BD\u03B5\u03C0\u03B5\u03AF\u03C2 \u03A7\u03C1\u03AE\u03C3\u03C4\u03B5\u03C2");
 		bannedMemberJÌenuItem
-				.addActionListener(new BannedMembersActionListener());
+		.addActionListener(new BannedMembersActionListener());
 		bannedMemberJÌenuItem.setIcon(new ImageIcon(Library.class
 				.getResource("/images/user_ban_16x16.png")));
 		membersJMenu.add(bannedMemberJÌenuItem);
-
-		/*
-		 * JMenuItem listMemberJMenuItem = new
-		 * JMenuItem("\u039B\u03AF\u03C3\u03C4\u03B1 \u039C\u03B5\u03BB\u03CE\u03BD"
-		 * ); membersJMenu.add(listMemberJMenuItem);
-		 */
 
 		JMenu loanJMenu = new JMenu(
 				"\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2");
@@ -198,7 +187,7 @@ public class Library extends JFrame {
 		btnAddBook = new JButton("");
 		btnAddBook.addActionListener(new AddBookActionListener());
 		btnAddBook
-				.setToolTipText("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
+		.setToolTipText("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		btnAddBook.setIcon(new ImageIcon(Library.class
 				.getResource("/images/add_book_16x16.png")));
 		toolBar.add(btnAddBook);
@@ -208,14 +197,14 @@ public class Library extends JFrame {
 		btnPopularBook.setIcon(new ImageIcon(Library.class
 				.getResource("/images/chart_arrow_16x16.png")));
 		btnPopularBook
-				.setToolTipText("\u0394\u03B7\u03BC\u03BF\u03C6\u03B9\u03BB\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03B1");
+		.setToolTipText("\u0394\u03B7\u03BC\u03BF\u03C6\u03B9\u03BB\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03B1");
 		toolBar.add(btnPopularBook);
 		toolBar.addSeparator();
 
 		btnAddMember = new JButton("");
 		btnAddMember.addActionListener(new AddMemberActionListener());
 		btnAddMember
-				.setToolTipText("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2");
+		.setToolTipText("\u03A0\u03C1\u03BF\u03C3\u03B8\u03AE\u03BA\u03B7 \u039C\u03AD\u03BB\u03BF\u03C5\u03C2");
 		btnAddMember.setIcon(new ImageIcon(Library.class
 				.getResource("/images/user_add_16x16.png")));
 		toolBar.add(btnAddMember);
@@ -223,7 +212,7 @@ public class Library extends JFrame {
 		btnBannedMember = new JButton("");
 		btnBannedMember.addActionListener(new BannedMembersActionListener());
 		btnBannedMember
-				.setToolTipText("\u0391\u03C3\u03C5\u03BD\u03B5\u03C0\u03B5\u03AF\u03C2 \u03A7\u03C1\u03AE\u03C3\u03C4\u03B5\u03C2");
+		.setToolTipText("\u0391\u03C3\u03C5\u03BD\u03B5\u03C0\u03B5\u03AF\u03C2 \u03A7\u03C1\u03AE\u03C3\u03C4\u03B5\u03C2");
 		btnBannedMember.setIcon(new ImageIcon(Library.class
 				.getResource("/images/user_ban_16x16.png")));
 		toolBar.add(btnBannedMember);
@@ -232,7 +221,7 @@ public class Library extends JFrame {
 		btnBorrowBook = new JButton("");
 		btnBorrowBook.addActionListener(new BorrowBookActionListener());
 		btnBorrowBook
-				.setToolTipText("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
+		.setToolTipText("\u0394\u03B1\u03BD\u03B5\u03B9\u03C3\u03BC\u03CC\u03C2 \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		btnBorrowBook.setIcon(new ImageIcon(Library.class
 				.getResource("/images/inbox_upload_16x16.png")));
 		toolBar.add(btnBorrowBook);
@@ -240,7 +229,7 @@ public class Library extends JFrame {
 		btnReturnBook = new JButton("");
 		btnReturnBook.addActionListener(new ReturnBookActionListener());
 		btnReturnBook
-				.setToolTipText("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
+		.setToolTipText("\u0395\u03C0\u03B9\u03C3\u03C4\u03C1\u03BF\u03C6\u03AE \u0392\u03B9\u03B2\u03BB\u03AF\u03BF\u03C5");
 		btnReturnBook.setIcon(new ImageIcon(Library.class
 				.getResource("/images/inbox_download_16x16.png")));
 		toolBar.add(btnReturnBook);
@@ -249,7 +238,7 @@ public class Library extends JFrame {
 		btnSearch = new JButton("");
 		btnSearch.addActionListener(new SearchActionListener());
 		btnSearch
-				.setToolTipText("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		.setToolTipText("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
 		btnSearch.setIcon(new ImageIcon(Library.class
 				.getResource("/images/search_16x16.png")));
 		toolBar.add(btnSearch);
@@ -263,20 +252,21 @@ public class Library extends JFrame {
 				.createParallelGroup(Alignment.TRAILING)
 				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 874,
 						Short.MAX_VALUE)
-				.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 874,
-						Short.MAX_VALUE));
+						.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE, 874,
+								Short.MAX_VALUE));
 		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(
 				Alignment.LEADING).addGroup(
-				gl_contentPane
+						gl_contentPane
 						.createSequentialGroup()
 						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 25,
 								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE,
-								700, Short.MAX_VALUE)));
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(desktopPane, GroupLayout.DEFAULT_SIZE,
+										700, Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
 	}
-
+	
+	// Closes the program
 	class ExitActionListener implements ActionListener {
 
 		@Override
@@ -287,55 +277,59 @@ public class Library extends JFrame {
 		}
 
 	}
-
+	
+	// Displays addBookForm
 	class AddBookActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			if (addBookForm == null || addBookForm.isClosed()) {	 // only one instance to addBookForm
-				
+
 				addBookForm = new AddBookForm();
 				desktopPane.add(addBookForm);
 				addBookForm.show();
 			}
 		}
 	}
-
+	
+	// Displays the popular books
 	class PopularBooksActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			Configuration configuration = new Configuration();	//Connection me Database
-		    configuration.configure();
-		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-		            configuration.getProperties()).build();
-		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			// Connection with Hibernate
+			Configuration configuration = new Configuration();
+			configuration.configure();
+
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
-			
+
+			// HQL to display books with descending order 
 			Query query = session.createQuery("from Book order by nOBorrows desc");
-			// number of values display
+			// number of values to display
 			query.setMaxResults(10);
-			//Create ArrayList of selected query
+			// Create ArrayList of selected query
 			ArrayList<Book> books = new ArrayList<Book>(query.list());
-			
+
 			session.getTransaction().commit();
 			session.close();
-			
-			BookTableModel model = new BookTableModel(books);
-            JTable table = new JTable(model);
 
-            JFrame frame = new JFrame("10 ÄçìïöéëÝóôåñá Âéâëßá");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.getContentPane().add(new JScrollPane(table));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            
-			/*for (Book b : books)
-				System.out.printf(b.getnOBorrows()+"\t"+b.getiSBN()+"\t"+b.getBookName()+"\t"+b.getBookAuthor()+"\t"+b.getBookPublisher()+"\t"+b.getBookSubject()+"\t"+b.getBookLanguage()+"\t"+b.getBookEvaluation()+"\n");	   
-			System.out.println();*/
+			BookTableModel model = new BookTableModel(books);
+			JTable table = new JTable(model);
+
+			// Creates the frame for the results
+			JFrame frame = new JFrame("10 ÄçìïöéëÝóôåñá Âéâëßá");
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.getContentPane().add(new JScrollPane(table));
+			frame.pack();
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+
 		}
 	}
-
+	
+	// Displays addMemberForm
 	class AddMemberActionListener implements ActionListener {
 
 		@Override
@@ -347,39 +341,44 @@ public class Library extends JFrame {
 			}
 		}
 	}
-
+	
+	// Displays the members with the most late points in descending order
 	class BannedMembersActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			Configuration configuration = new Configuration();	//Connection me Database
-		    configuration.configure();
-		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			// Connection with Hibernate
+			Configuration configuration = new Configuration();
+			configuration.configure();
+
+			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
-			
+
+			// HQL to display Members with late points descending order 
 			Query query = session.createQuery("from Member order by latePoints desc");
 			// number of values display
 			query.setMaxResults(5);
 			ArrayList<Member> members = new ArrayList<Member>(query.list());
-			
+
 			session.getTransaction().commit();
 			session.close();
-			
-			MemberTableModel model = new MemberTableModel(members);
-            JTable table = new JTable(model);
 
-            JFrame frame = new JFrame("Ïé 5 ðéï áóõíåðåßò ÷ñÞóôåò");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.getContentPane().add(new JScrollPane(table));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
+			MemberTableModel model = new MemberTableModel(members);
+			JTable table = new JTable(model);
+
+			JFrame frame = new JFrame("Ïé 5 ðéï áóõíåðåßò ÷ñÞóôåò");
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.getContentPane().add(new JScrollPane(table));
+			frame.pack();
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
 		}
 	}
 
+	// Displays borrowBookForm
 	class BorrowBookActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -391,6 +390,7 @@ public class Library extends JFrame {
 		}
 	}
 
+	// Displays returnBookForm
 	class ReturnBookActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -402,6 +402,7 @@ public class Library extends JFrame {
 		}
 	}
 
+	// Displays searchForm
 	class SearchActionListener implements ActionListener {
 
 		@Override

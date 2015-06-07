@@ -42,8 +42,10 @@ public class AddBookForm extends JInternalFrame {
 	private JComboBox bookLanguageComboBox;
 
 	/**
-	 * Creates the Add Book Form Frame.Action Listeners at the end!
+	 * Creates the add book form frame. Action Listeners at the end!
+	 * 
 	 */
+	
 	public AddBookForm() {
 		setResizable(true);
 		setFrameIcon(new ImageIcon(AddBookForm.class.getResource("/images/add_book_16x16.png")));
@@ -148,13 +150,15 @@ public class AddBookForm extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
-	//Add Book Button Action Listener
+	//Adds a book to the Database
 	class AddBookActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			//Creates new Book Object
 			Book book = new Book();
+			
 			//Getting the user's input from TextFields
 			String bookName = bookNameTextField.getText();
 			String bookAuthor = bookAuthorTextField.getText();
@@ -164,6 +168,7 @@ public class AddBookForm extends JInternalFrame {
 			int bookEdition = Integer.parseInt(bookEditionTextField.getText());
 			String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
 			int iSBN = Integer.parseInt(ISBNTextField.getText());
+			
 			//Setting them into the new book entity
 			book.setBookName(bookName);
 			book.setBookAuthor(bookAuthor);
@@ -173,13 +178,18 @@ public class AddBookForm extends JInternalFrame {
 			book.setBookEdition(bookEdition);
 			book.setBookLanguage(bookLanguage);
 			book.setiSBN(iSBN);
+			
 			//Connection with Database
 			Configuration configuration = new Configuration();
 		    configuration.configure();
+		    
 		    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
 		    //New session
-			Session session = sessionFactory.openSession();			
+			Session session = sessionFactory.openSession();
+			
+			//Saves or updates the book to the database
 			session.beginTransaction();
 			session.saveOrUpdate(book);
 			session.getTransaction().commit();
