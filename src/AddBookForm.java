@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -163,21 +164,53 @@ public class AddBookForm extends JInternalFrame {
 			String bookName = bookNameTextField.getText();
 			String bookAuthor = bookAuthorTextField.getText();
 			String bookSubject = bookSubjectTextField.getText();
-			int bookPages = Integer.parseInt(bookPagesTextField.getText());
-			String bookPublisher = bookPublisherTextField.getText();
-			int bookEdition = Integer.parseInt(bookEditionTextField.getText());
-			String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
-			int iSBN = Integer.parseInt(ISBNTextField.getText());
+			// Checks if number of pages is number
+			try {
+				int bookPages = Integer.parseInt(bookPagesTextField.getText());
+				// Sets number of pages into the new book entity
+				book.setBookPages(bookPages);
+				} 
+			catch (Exception e1) {
+				JOptionPane.showMessageDialog(null,
+						"Ο Αριθμός σελίδων πρέπει να είναι αριθμός!!", "Σφάλμα",
+						JOptionPane.ERROR_MESSAGE);
+				bookPagesTextField.setText(null);}
 			
+			String bookPublisher = bookPublisherTextField.getText();
+			String bookEditionText = bookEditionTextField.getText();
+			// Checks if book edition is number
+			try {
+				int bookEdition = Integer.parseInt(bookEditionText);
+				// Sets book edition into the new book entity
+				book.setBookEdition(bookEdition);
+				} 
+			catch (Exception e1) {
+				JOptionPane.showMessageDialog(null,
+						"Η Έκδοση του Βιβλίου πρέπει να είναι αριθμός!!", "Σφάλμα",
+						JOptionPane.ERROR_MESSAGE);
+				bookEditionTextField.setText(null);}
+			
+			String bookLanguage = bookLanguageComboBox.getSelectedItem().toString();
+			
+			String iSBNText = ISBNTextField.getText();
+			// Checks if ISBN is number
+			try {
+				int iSBN = Integer.parseInt(iSBNText);
+				// Sets ISBN into the new book entity
+				book.setiSBN(iSBN);
+				} 
+			catch (Exception e1) {
+				JOptionPane.showMessageDialog(null,
+						"To ISBN πρέπει να είναι αριθμός!!", "Σφάλμα ISBN",
+						JOptionPane.ERROR_MESSAGE);
+				ISBNTextField.setText(null);}
+				
 			//Setting them into the new book entity
 			book.setBookName(bookName);
 			book.setBookAuthor(bookAuthor);
 			book.setBookSubject(bookSubject);
-			book.setBookPages(bookPages);
 			book.setBookPublisher(bookPublisher);
-			book.setBookEdition(bookEdition);
 			book.setBookLanguage(bookLanguage);
-			book.setiSBN(iSBN);
 			
 			//Connection with Database
 			Configuration configuration = new Configuration();
